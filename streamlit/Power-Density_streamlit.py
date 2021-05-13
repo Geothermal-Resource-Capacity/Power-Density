@@ -60,10 +60,37 @@ print("Probability of exploration success = {:.0f}%".format(POSexpl*100))
 st.write(f'{Ptemp} \* {Pperm} * {Pchem} = Probability of exploration success {POSexpl*100}%')
 
 
-
 #Plotly test
 expl_dict = {'Prob':['Ptemp','Pperm','Pchem'], 'Values':[Ptemp, Pperm, Pchem]}
 exploration_df = pd.DataFrame(data=expl_dict)
 
-fig = px.bar(data_frame = exploration_df, y='Prob', x='Values', orientation='h', range_x=[0,1])
+
+#calcs
+area_nu = ((np.log(Area_P90)+np.log(Area_P10))/2)
+area_sigma = (np.log(Area_P10)-np.log(Area_P90))/((norm.ppf(1-Opt_case)-(norm.ppf(Opt_case))))
+
+powerdens_nu = ((np.log(PowerDens_P90)+np.log(PowerDens_P10))/2)
+powerdens_sigma = (np.log(PowerDens_P10)-np.log(PowerDens_P90))/((norm.ppf(1-Opt_case)-(norm.ppf(Opt_case))))
+
+capacity_nu = area_nu + powerdens_nu
+capacity_sigma = ((area_sigma**2)+(powerdens_sigma**2))**0.5
+
+epc = [lognorm.ppf(x/100, capacity_nu, capacity_sigma)*POSexpl for x in range(0,100)]
+indx = list(np.arange(0,100))
+
+epc_tups = list(zip(idx,epc))
+
+prob_df = pd.DataFrame(epc_tups, columns = ['Values', 'Prob'])
+
+# final fig
+
+fig = px.bar(data_frame = prob_df, y='Prob', x='Values', orientation='h', range_x=[0,1])
 st.plotly_chart(fig)
+
+
+# Line plot
+fig = px.line(df2, x="Date", y="Cases")
+st.plotly_chart(fig)
+
+
+
