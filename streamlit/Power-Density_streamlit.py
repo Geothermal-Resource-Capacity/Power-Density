@@ -121,7 +121,22 @@ for j in prob:
     prob_desc.append(desc)
     # Print results
     #print(j, epc, eds, desc)
-    
+
+epc = [lognorm.ppf(x/100, capacity_nu, capacity_sigma)*POSexpl for x in range(0,100)]
+indx = list(np.arange(0,100))
+epc_tups = list(zip(idx,epc))
+prob_df = pd.DataFrame(epc_tups, columns = ['Values', 'Prob'])
+
+fig = px.bar(data_frame = prob_df, y='Prob', x='Values', orientation='h', range_x=[0,1])
+st.plotly_chart(fig)
+
+# Line plot
+fig = px.line(df2, x="Date", y="Cases")
+st.plotly_chart(fig)
+
+
+
+
 ##### FINAL PLOTS ######################
 # Plot power capacity cumulative distribution
 ##### better to change it to streamlit native plots I think for interactivity (hover and see value)
@@ -142,5 +157,6 @@ plt.xlabel("Expected Development Size (MW)")
 plt.ylabel("Cumulative Confidence %")
 plt.title("Cumulative Confidence in Developed Reservoir Size")
 colB.pyplot(fig=figDevSize)
+
 
 
