@@ -61,12 +61,74 @@ Tmin = int(st.text_input("Minimum temperature for the P10 reservoir (degrees C)"
 # Area > 250 deg C in km2
 
 st.write("**Area > 250 degrees C, in KM^2**")
-col1.Area_P90 = int(st.text_input("Area P90:", 1))
-col2.Area_P10 = int(st.text_input("Area P10:", 10))
+Area_P90 = int(st.text_input("Area P90:", 1))
+Area_P10 = int(st.text_input("Area P10:", 10))
 
 # USER INPUT REQUIRED
 st.write("**Power Density 250 to 280 deg C (MWe/km2)**")
 PowerDens_P90 = int(st.text_input("Power density P90:", 10))
 PowerDens_P10 = int(st.text_input("Power Density P10:", 24))
 
+
+# Calculate nu and sigma for area > 250 degC (the mean and variance in log units required for specifying lognormal distributions)
+area_nu = ((np.log(Area_P90)+np.log(Area_P10))/2)
+st.write("Calculate nu and sigma for area > 250 degC (the mean and variance in log units required for specifying lognormal distributions)", area_nu)
+
+area_sigma = (np.log(Area_P10)-np.log(Area_P90))/((norm.ppf(1-Opt_case)-(norm.ppf(Opt_case))))
+st.write("Area sigma", area_sigma)
+
+# Calculate nu and sigma for power density (the mean and variance in log units required for specifying lognormal distributions)
+st.write("Calculate nu and sigma for power density (the mean and variance in log units required for specifying lognormal distributions)")
+powerdens_nu = ((np.log(PowerDens_P90)+np.log(PowerDens_P10))/2)
+st.write("Power density nu ",powerdens_nu)
+
+powerdens_sigma = (np.log(PowerDens_P10)-np.log(PowerDens_P90))/((norm.ppf(1-Opt_case)-(norm.ppf(Opt_case))))
+st.write("Power density sigma ", powerdens_sigma)
+
+# Calculate nu and sigma for MWe Capacity
+capacity_nu = area_nu + powerdens_nu
+"capacity_nu", capacity_nu
+
+capacity_sigma = ((area_sigma**2)+(powerdens_sigma**2))**0.5
+"capacity_sigma", capacity_sigma
+
+# Calculate cumulative confidence curve for expected power capacity (epc)
+
+prob = [0.1]
+expected_power_capacity=[]
+expected_development_size=[]
+prob_desc = []
+
+# Specify probability range
+for i in range(1,100):
+    prob.append(i)
+
+for j in prob:
+    # Calculate expected development size distribution
+    eds = lognorm.ppf(j/100, capacity_sigma, loc=0, scale=np.exp(capacity_nu))
+    expected_development_size.append(eds)
+    # Calculate power capacity distribution
+    epc = eds*POSexpl
+    expected_power_capacity.append(epc)
+    # Calculate 100-prob for plotting descending cumulative probability
+    desc = 100-j
+    prob_desc.append(desc)
+    # Print results
+    #print(j, epc, eds, desc)
+
+# Plot power capacity cumulative distribution
+##### THIS PART IS NOT WORKING.
+##### better to change it to streamlit native plots I think for interactivity (hover and see value)
+figPowerCapacity, ax = plt.plot(expected_power_capacity, prob_desc)
+plt.xlabel("Expected Power Capacity (MWe potential reserves)")
+plt.ylabel("Cumulative Confidence %")
+plt.title("Cumulative Confidence in Power Capacity")
+st.pyplot(fig=figPowerCapacity)
+
+
+# Plot expected development size cumulative distribution
+plt.plot(expected_development_size, prob_desc)
+plt.xlabel("Expected Development Size (MW)")
+plt.ylabel("Cumulative Confidence %")
+plt.title("Cumulative Confidence in Developed Reservoir Size")
 
