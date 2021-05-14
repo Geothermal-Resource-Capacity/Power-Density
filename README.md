@@ -15,7 +15,7 @@ Project initiator:
 Collaborators: 
 - Hannah Wood
 - Jan Niederau 
-- Jeff Jex 
+- Jeff Jex
 - Will Middlebrook
 
 
