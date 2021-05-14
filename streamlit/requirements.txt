@@ -1,0 +1,21 @@
+certifi==2020.12.5
+cycler==0.10.0
+kiwisolver @ file:///C:/ci/kiwisolver_1612282606037/work
+matplotlib @ file:///C:/ci/matplotlib-suite_1613408055530/work
+mkl-fft==1.3.0
+mkl-random @ file:///C:/ci/mkl_random_1618854156666/work
+mkl-service==2.3.0
+numpy @ file:///C:/ci/numpy_and_numpy_base_1618497418457/work
+olefile==0.46
+pandas @ file:///C:/ci/pandas_1618365634936/work
+Pillow @ file:///C:/ci/pillow_1617386341487/work
+plotly @ file:///tmp/build/80754af9/plotly_1610565580232/work
+pyparsing @ file:///home/linux1/recipes/ci/pyparsing_1610983426697/work
+python-dateutil @ file:///home/ktietz/src/ci/python-dateutil_1611928101742/work
+pytz @ file:///tmp/build/80754af9/pytz_1612215392582/work
+retrying==1.3.3
+scipy @ file:///C:/ci/scipy_1618856128765/work
+sip==4.19.13
+six @ file:///C:/ci/six_1605187374963/work
+tornado @ file:///C:/ci/tornado_1606942392901/work
+wincertstore==0.2
