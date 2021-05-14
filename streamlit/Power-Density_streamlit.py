@@ -63,13 +63,13 @@ Tmin = int(colB.text_input("Minimum temperature for the P10 reservoir (degrees C
 # USER INPUT REQUIRED
 # Area > 250 deg C in km2
 
-st.markdown("**Area > 250 degrees C, in KM^2**")
-Area_P90 = int(colA.text_input("Area P90:", 1))
+#st.markdown("**Area > 250 degrees C, in KM^2**")
+Area_P90 = int(colA.text_input("Area > 250 degrees C, in KM^2 P90:", 1))
 Area_P10 = int(colB.text_input("Area P10:", 10))
 
 # USER INPUT REQUIRED
-st.write("**Power Density 250 to 280 deg C (MWe/km2)**")
-PowerDens_P90 = int(colA.text_input("Power density P90:", 10))
+#st.write("**Power Density 250 to 280 deg C (MWe/km2)**")
+PowerDens_P90 = int(colA.text_input("Power density in (MWe/km2) P90:", 10))
 PowerDens_P10 = int(colB.text_input("Power Density P10:", 24))
 
 
@@ -78,25 +78,22 @@ PowerDens_P10 = int(colB.text_input("Power Density P10:", 24))
 
 # Calculate nu and sigma for area > 250 degC (the mean and variance in log units required for specifying lognormal distributions)
 area_nu = ((np.log(Area_P90)+np.log(Area_P10))/2)
-st.write("Calculate nu and sigma for area > 250 degC (the mean and variance in log units required for specifying lognormal distributions)", area_nu)
+
 
 area_sigma = (np.log(Area_P10)-np.log(Area_P90))/((norm.ppf(1-Opt_case)-(norm.ppf(Opt_case))))
-st.write("Area sigma", area_sigma)
 
-# Calculate nu and sigma for power density (the mean and variance in log units required for specifying lognormal distributions)
-st.write("Calculate nu and sigma for power density (the mean and variance in log units required for specifying lognormal distributions)")
 powerdens_nu = ((np.log(PowerDens_P90)+np.log(PowerDens_P10))/2)
-st.write("Power density nu ",powerdens_nu)
+
 
 powerdens_sigma = (np.log(PowerDens_P10)-np.log(PowerDens_P90))/((norm.ppf(1-Opt_case)-(norm.ppf(Opt_case))))
-st.write("Power density sigma ", powerdens_sigma)
+
 
 # Calculate nu and sigma for MWe Capacity
 capacity_nu = area_nu + powerdens_nu
-"capacity_nu", capacity_nu
+
 
 capacity_sigma = ((area_sigma**2)+(powerdens_sigma**2))**0.5
-"capacity_sigma", capacity_sigma
+
 
 # Calculate cumulative confidence curve for expected power capacity (epc)
 
@@ -121,21 +118,36 @@ for j in prob:
     prob_desc.append(desc)
     # Print results
     #print(j, epc, eds, desc)
+# epc - old function
+#epc = [lognorm.ppf(x/100, capacity_nu, capacity_sigma)*POSexpl for x in range(0,100)]
 
-epc = [lognorm.ppf(x/100, capacity_nu, capacity_sigma)*POSexpl for x in range(0,100)]
-indx = list(np.arange(0,100))
-epc_tups = list(zip(indx,epc))
-prob_df = pd.DataFrame(epc_tups, columns = ['Values', 'Prob'])
+# eds and epc - new functions
+eds = [lognorm.ppf(x/100, capacity_sigma, loc=0, scale=np.exp(capacity_nu)) for x in range(0,100)]
+epc = [lognorm.ppf(x/100, capacity_sigma, loc=0, scale=np.exp(capacity_nu))*POSexpl for x in range(0,100)]
+indx = list(np.arange(1,101)[::-1])
+edsepc_tups = list(zip(indx,eds,epc))
+prob_df = pd.DataFrame(edsepc_tups, columns = ['Cumulative confidence (%)', 'expected development size (MW)', 'expected power capacity (MWe/km2)'])
 
-fig = px.bar(data_frame = prob_df, y='Prob', x='Values', orientation='h', range_x=[0,1])
+fig = px.bar(data_frame = prob_df, y='Cumulative confidence (%)', x='expected power capacity (MWe/km2)', orientation='h', range_x=[0,500])
 st.plotly_chart(fig)
 
 # Line plot
-fig = px.line(df2, x="Date", y="Cases")
-st.plotly_chart(fig)
+#fig = px.line(df2, x="Date", y="Cases")
+#st.plotly_chart(fig)
+#fig = px.bar(data_frame = prob_df, y='Prob', x='expected development size (MW)', orientation='h', range_x=[0,500])
+#st.plotly_chart(fig)
 
-
-
+### Text output ###
+st.markdown("___")
+st.write("## Outputs")
+st.write("Calculate nu and sigma for area > 250 degC (the mean and variance in log units required for specifying lognormal distributions)", area_nu)
+st.write("Area sigma", area_sigma)
+# Calculate nu and sigma for power density (the mean and variance in log units required for specifying lognormal distributions)
+st.write("Calculate nu and sigma for power density (the mean and variance in log units required for specifying lognormal distributions)")
+st.write("Power density nu ",powerdens_nu)
+st.write("Power density sigma ", powerdens_sigma)
+"capacity_sigma", capacity_sigma
+"capacity_nu", capacity_nu
 
 ##### FINAL PLOTS ######################
 # Plot power capacity cumulative distribution
