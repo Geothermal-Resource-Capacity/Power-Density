@@ -7,12 +7,34 @@ Created on Thu May 13 09:31:30 2021
 import streamlit as st
 import plotly.express as px
 import pandas as pd
+import base64
 
 #libs for computation
 import numpy as np
 import scipy
 from scipy.stats import norm, lognorm
 import matplotlib.pyplot as plt
+
+def download_link(object_to_download, download_filename, download_link_text):
+    """
+    Generates a link to download the given object_to_download. from https://discuss.streamlit.io/t/heres-a-download-function-that-works-for-dataframes-and-txt/4052
+
+    object_to_download (str, pd.DataFrame):  The object to be downloaded.
+    download_filename (str): filename and extension of file. e.g. mydata.csv, some_txt_output.txt
+    download_link_text (str): Text to display for download link.
+
+    Examples:
+    download_link(YOUR_DF, 'YOUR_DF.csv', 'Click here to download data!')
+
+    """
+    if isinstance(object_to_download,pd.DataFrame):
+        object_to_download = object_to_download.to_csv(index=False)
+
+    # some strings <-> bytes conversions necessary here
+    b64 = base64.b64encode(object_to_download.encode()).decode()
+
+    return f'<a href="data:file/txt;base64,{b64}" download="{download_filename}">{download_link_text}</a>'
+
 
 st.title('Power Density')
 st.write('**1: Exploration, is it there?**') #Streamlit uses markdown for formatting
@@ -149,26 +171,34 @@ st.write("Power density sigma ", powerdens_sigma)
 "capacity_sigma", capacity_sigma
 "capacity_nu", capacity_nu
 
+st.markdown("___")
+st.write("## Download your confidence curve:")
+
+if st.button('Build CSV for download'):
+    tmp_download_link = download_link(prob_df, 'YOUR_DF.csv', 'CSV built! Click here to download your data!')
+    st.markdown(tmp_download_link, unsafe_allow_html=True)
+
+
 ##### FINAL PLOTS ######################
 # Plot power capacity cumulative distribution
 ##### better to change it to streamlit native plots I think for interactivity (hover and see value)
 ##### I've just ported over the notebook code for a quick placeholder
-colA, colB = st.beta_columns(2) # Show sliders in 2 columns
-figPowerCapacity = plt.figure()
-plt.plot(expected_power_capacity, prob_desc)
-plt.xlabel("Expected Power Capacity (MWe potential reserves)")
-plt.ylabel("Cumulative Confidence %")
-plt.title("Cumulative Confidence in Power Capacity")
-colA.pyplot(fig=figPowerCapacity)
-
-
-# Plot expected development size cumulative distribution
-figDevSize = plt.figure()
-plt.plot(expected_development_size, prob_desc)
-plt.xlabel("Expected Development Size (MW)")
-plt.ylabel("Cumulative Confidence %")
-plt.title("Cumulative Confidence in Developed Reservoir Size")
-colB.pyplot(fig=figDevSize)
+#colA, colB = st.beta_columns(2) # Show sliders in 2 columns
+#figPowerCapacity = plt.figure()
+#plt.plot(expected_power_capacity, prob_desc)
+#plt.xlabel("Expected Power Capacity (MWe potential reserves)")
+#plt.ylabel("Cumulative Confidence %")
+#plt.title("Cumulative Confidence in Power Capacity")
+#colA.pyplot(fig=figPowerCapacity)
+#
+#
+## Plot expected development size cumulative distribution
+#figDevSize = plt.figure()
+#plt.plot(expected_development_size, prob_desc)
+#plt.xlabel("Expected Development Size (MW)")
+#plt.ylabel("Cumulative Confidence %")
+#plt.title("Cumulative Confidence in Developed Reservoir Size")
+#colB.pyplot(fig=figDevSize)
 
 
 
