@@ -20,4 +20,5 @@ dependencies:
   - jupyter
   - notebook
   - vega_datasets
+  - streamlit
   - pip
