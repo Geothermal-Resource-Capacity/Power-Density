@@ -66,6 +66,9 @@ def calculate_cumulative_conf(areaP90: float=1., areaP10: float=10., pdP90: floa
 
     return prob_df
 
+imgPath = '../figures/wilmarth_2019.PNG'
+st.image(imgPath, caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
+
 
 st.title('Power Density')
 st.write('**1: Exploration, is it there?**') #Streamlit uses markdown for formatting
