@@ -77,7 +77,7 @@ st.write("Evaluation of geothermal resources")
 
 #Post figure image at the top
 ###Future goal - make this interactive, see points on hover and show current analysis as a point
-imgPath = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019_noborders.PNG'
+imgPath = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG'
 st.image(imgPath, caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
 
 st.write('**1: Exploration, is it there?**') #Streamlit uses markdown for formatting
