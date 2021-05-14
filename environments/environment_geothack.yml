@@ -9,6 +9,7 @@ dependencies:
   - matplotlib
   - altair
   - bokeh
+  - plotly
   - numpy
   - scipy
   - seaborn>=0.9

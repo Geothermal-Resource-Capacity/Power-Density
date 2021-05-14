@@ -124,7 +124,7 @@ for j in prob:
 
 epc = [lognorm.ppf(x/100, capacity_nu, capacity_sigma)*POSexpl for x in range(0,100)]
 indx = list(np.arange(0,100))
-epc_tups = list(zip(idx,epc))
+epc_tups = list(zip(indx,epc))
 prob_df = pd.DataFrame(epc_tups, columns = ['Values', 'Prob'])
 
 fig = px.bar(data_frame = prob_df, y='Prob', x='Values', orientation='h', range_x=[0,1])
