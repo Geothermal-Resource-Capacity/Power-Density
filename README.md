@@ -43,6 +43,34 @@ Name suggestions welcome!!
 - geopower
 - your suggestion here... 
 
-# References 
+# Resources 
+
+The P10-P90 areas passed into the tool are developed using the conceptual model method. 
+
+The subsurface geometries of the P10-P50-P90 reservoir are defined by available resource data and analogue reasoning. Wallis et al. (2017) provides a continuum of reservoir geometries that may be used by resource teams as templates while they develop their conceptual model alternatives. 
+
+Cumming power density tool
+
+Wallis, I. C., Rowland, J. V., Cumming, W. and Dempsey, D. E., 2017, The subsurface geometry of a natural geothermal reservoir. New Zealand Geothermal Workshop: Rotorua, New Zealand. [link to file](https://www.geothermal-energy.org/pdf/IGAstandard/NZGW/2017/111_Wallis-Final_.pdf)
+
+Cumming (2009) Geothermal Resource Conceptual Models Using Surface Exploration Data
+
+[link to file](https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2009/cumming.pdf)
 
 
+Catherine Boseley, William Cumming, Luis Urzua-Monsalve, Tom Powell and Malcolm Grant (2010) A Resource Conceptual Model for the Ngatamariki Geothermal Field Based on Recent Exploration Well Drilling and 3D MT Resistivity Imaging
+
+[link to file](https://www.geothermal-energy.org/pdf/IGAstandard/WGC/2010/1146.pdf)
+
+
+Steve Sewell, William Cumming, Lutfhie Azwar, Candice Bardsley (2012) Integrated MT and Natural State Temperature Interpretation for a Conceptual Model Supporting Reservoir Numerical Modelling and Well Targeting at the Rotokawa Geothermal Field, New Zealand 
+
+[link to file](https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2012/Sewell.pdf)
+
+Cumming, William (2016) Resource Conceptual Models of Volcano-Hosted Geothermal Reservoirs for Exploration Well Targeting and Resource Capacity Assessment: Construction, Pitfalls and Challenges
+
+[link to file](https://publications.mygeoenergynow.org/grc/1032377.pdf)
+
+Cumming (2016) Resource Capacity Estimation Using Lognormal Distributions of Power Density Derived from Producing Fields and Area Derived from Resource Conceptual Models; Advantages, Pitfalls and Remedies
+
+[link to file](https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2016/Cumming.pdf)
