@@ -84,7 +84,7 @@ Pchem /= 100 #  I think it makes things clearer.
 
 #Show exploration input results ###################################
 POSexpl = Ptemp * Pperm * Pchem
-print("Probability of exploration success = {:.2f}%".format(round(POSexpl*100,0)))
+#print("Probability of exploration success = {:.2f}%".format(round(POSexpl*100,0)))
 # Could potentially code in user option to adjust number of decimal places for POS
 
 st.write(f'{Ptemp} \* {Pperm} * {Pchem} = Probability of exploration success {round(POSexpl*100,1)}%')
@@ -106,20 +106,20 @@ st.write("## Appraisal and Dev Parameters")
 colA, colB = st.beta_columns(2) # Show sliders in 2 columns
 
 #probably should add a message/try catch that this must be numeric:
-Tmax = int(colA.text_input("Startup averages temperature for P90 reserves (degrees C)", 280))
-Tmin = int(colB.text_input("Minimum temperature for the P10 reservoir (degrees C)", 250))
+Tmax = float(colA.text_input("Startup averages temperature for P90 reserves (degrees C)", 280))
+Tmin = float(colB.text_input("Minimum temperature for the P10 reservoir (degrees C)", 250))
 
 # USER INPUT REQUIRED
 # Area > 250 deg C in km2
 
 #st.markdown("**Area > 250 degrees C, in KM^2**")
-Area_P90 = int(colA.text_input("Area > 250 degrees C, in KM^2 P90:", 1))
-Area_P10 = int(colB.text_input("Area P10:", 10))
+Area_P90 = float(colA.text_input("Area > 250 degrees C, in KM^2 P90:", 1))
+Area_P10 = float(colB.text_input("Area P10:", 10))
 
 # USER INPUT REQUIRED
 #st.write("**Power Density 250 to 280 deg C (MWe/km2)**")
-PowerDens_P90 = int(colA.text_input("Power density in (MWe/km2) P90:", 10))
-PowerDens_P10 = int(colB.text_input("Power Density P10:", 24))
+PowerDens_P90 = float(colA.text_input("Power density in (MWe/km2) P90:", 10))
+PowerDens_P10 = float(colB.text_input("Power Density P10:", 24))
 
 
 ## CALCULATIONS ################################################
