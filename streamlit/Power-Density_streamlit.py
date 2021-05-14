@@ -128,32 +128,21 @@ PowerDens_P10 = float(colB.text_input("Power Density P10:", 24))
 ## CALCULATIONS ################################################
 # Calculate nu and sigma for area > 250 degC (the mean and variance in log units required for specifying lognormal distributions)
 area_nu = ((np.log(Area_P90)+np.log(Area_P10))/2)
-
-
 area_sigma = (np.log(Area_P10)-np.log(Area_P90))/((norm.ppf(1-0.1)-(norm.ppf(0.1))))
 
+# Calculate nu and sigma for the power density
 powerdens_nu = ((np.log(PowerDens_P90)+np.log(PowerDens_P10))/2)
-
-
 powerdens_sigma = (np.log(PowerDens_P10)-np.log(PowerDens_P90))/((norm.ppf(1-0.1)-(norm.ppf(0.1))))
-
 
 # Calculate nu and sigma for MWe Capacity
 capacity_nu = area_nu + powerdens_nu
-
-
 capacity_sigma = ((area_sigma**2)+(powerdens_sigma**2))**0.5
 
+# Calculate cumulative confidence curve
 prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens_P10)
 
 fig = px.bar(data_frame = prob_df, y='Cumulative confidence (%)', x='expected development size (MW)', orientation='h', range_x=[0,500])
 st.plotly_chart(fig)
-
-# Line plot
-#fig = px.line(df2, x="Date", y="Cases")
-#st.plotly_chart(fig)
-#fig = px.bar(data_frame = prob_df, y='Prob', x='expected development size (MW)', orientation='h', range_x=[0,500])
-#st.plotly_chart(fig)
 
 ### Text output ###
 st.markdown("___")
@@ -173,28 +162,5 @@ st.write("## Download your confidence curve:")
 if st.button('Build CSV for download'):
     tmp_download_link = download_link(prob_df, 'YOUR_DF.csv', 'CSV built! Click here to download your data!')
     st.markdown(tmp_download_link, unsafe_allow_html=True)
-
-
-##### FINAL PLOTS ######################
-# Plot power capacity cumulative distribution
-##### better to change it to streamlit native plots I think for interactivity (hover and see value)
-##### I've just ported over the notebook code for a quick placeholder
-#colA, colB = st.beta_columns(2) # Show sliders in 2 columns
-#figPowerCapacity = plt.figure()
-#plt.plot(expected_power_capacity, prob_desc)
-#plt.xlabel("Expected Power Capacity (MWe potential reserves)")
-#plt.ylabel("Cumulative Confidence %")
-#plt.title("Cumulative Confidence in Power Capacity")
-#colA.pyplot(fig=figPowerCapacity)
-#
-#
-## Plot expected development size cumulative distribution
-#figDevSize = plt.figure()
-#plt.plot(expected_development_size, prob_desc)
-#plt.xlabel("Expected Development Size (MW)")
-#plt.ylabel("Cumulative Confidence %")
-#plt.title("Cumulative Confidence in Developed Reservoir Size")
-#colB.pyplot(fig=figDevSize)
-
 
 
