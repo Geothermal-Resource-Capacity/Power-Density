@@ -66,13 +66,21 @@ def calculate_cumulative_conf(areaP90: float=1., areaP10: float=10., pdP90: floa
 
     return prob_df
 
+
+
+###########################################################################
+## END of functions - Streamlit app below #################################
+###########################################################################
+
+st.title('Power Density')
+st.write("Evaluation of geothermal resources")
+
+#Post figure image at the top
+###Future goal - make this interactive, see points on hover and show current analysis as a point
 imgPath = '../figures/wilmarth_2019.PNG'
 st.image(imgPath, caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
 
-
-st.title('Power Density')
 st.write('**1: Exploration, is it there?**') #Streamlit uses markdown for formatting
-
 
 # Exploration portion of inputs ##########################
 col1, col2, col3 = st.beta_columns(3) # Show sliders in 3 columns
@@ -92,16 +100,6 @@ POSexpl = Ptemp * Pperm * Pchem
 
 st.write(f'{Ptemp} \* {Pperm} * {Pchem} = Probability of exploration success {round(POSexpl*100,1)}%')
 
-# Example of how to do a plotly plot
-# #Plotly test, throw this away for something better later.
-# expl_dict = {'Prob':['Ptemp','Pperm','Pchem'], 'Values':[Ptemp, Pperm, Pchem]}
-# exploration_df = pd.DataFrame(data=expl_dict)
-
-# fig = px.bar(data_frame = exploration_df, y='Prob', x='Values', orientation='h', range_x=[0,1])
-# st.plotly_chart(fig)
-
-
-
 ##Appraisal and dev inputs###################
 st.markdown("___")
 st.write("## Appraisal and Dev Parameters")
@@ -112,14 +110,14 @@ colA, colB = st.beta_columns(2) # Show sliders in 2 columns
 Tmax = float(colA.text_input("Startup averages temperature for P90 reserves (degrees C)", 280))
 Tmin = float(colB.text_input("Minimum temperature for the P10 reservoir (degrees C)", 250))
 
-# USER INPUT REQUIRED
+# USER INPUT 
 # Area > 250 deg C in km2
 
 #st.markdown("**Area > 250 degrees C, in KM^2**")
 Area_P90 = float(colA.text_input("Area > 250 degrees C, in KM^2 P90:", 1))
 Area_P10 = float(colB.text_input("Area P10:", 10))
 
-# USER INPUT REQUIRED
+# USER INPUT 
 #st.write("**Power Density 250 to 280 deg C (MWe/km2)**")
 PowerDens_P90 = float(colA.text_input("Power density in (MWe/km2) P90:", 10))
 PowerDens_P10 = float(colB.text_input("Power Density P10:", 24))
@@ -144,23 +142,30 @@ prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens
 fig = px.bar(data_frame = prob_df, y='Cumulative confidence (%)', x='expected development size (MW)', orientation='h', range_x=[0,500])
 st.plotly_chart(fig)
 
-### Text output ###
-st.markdown("___")
-st.write("## Outputs")
-st.write("Calculate nu and sigma for area > 250 degC (the mean and variance in log units required for specifying lognormal distributions)", area_nu)
-st.write("Area sigma", area_sigma)
-# Calculate nu and sigma for power density (the mean and variance in log units required for specifying lognormal distributions)
-st.write("Calculate nu and sigma for power density (the mean and variance in log units required for specifying lognormal distributions)")
-st.write("Power density nu ",powerdens_nu)
-st.write("Power density sigma ", powerdens_sigma)
-"capacity_sigma", capacity_sigma
-"capacity_nu", capacity_nu
+st_ex_AdvancedOutput = st.beta_expander(label="Computation outputs") #Make an expander object
+with st_ex_AdvancedOutput:   #Make these results hidden until expanded
+    ### Text output ###
+    st.markdown("___")
+    #st.write("## Computation outputs ")
+    #Display the table, only every 10th row, and hide the index column to make it pretty
+    st.table(prob_df[prob_df.index%10==9].assign(hideIndex='').set_index('hideIndex'))
 
-st.markdown("___")
-st.write("## Download your confidence curve:")
+    st.write("Calculate nu and sigma for area > 250 degC (the mean and variance in log units required for specifying lognormal distributions)", area_nu)
+    st.write("Area sigma", area_sigma)
+    # Calculate nu and sigma for power density (the mean and variance in log units required for specifying lognormal distributions)
+    st.write("Calculate nu and sigma for power density (the mean and variance in log units required for specifying lognormal distributions)")
+    st.write("Power density nu ",powerdens_nu)
+    st.write("Power density sigma ", powerdens_sigma)
+    "capacity_sigma", capacity_sigma
+    "capacity_nu", capacity_nu
+
+    st.markdown("___")
+
+#Perhaps this should be in the 'advanced' view expander too
+st.write("## Download confidence curve values:")
 
 if st.button('Build CSV for download'):
-    tmp_download_link = download_link(prob_df, 'YOUR_DF.csv', 'CSV built! Click here to download your data!')
+    tmp_download_link = download_link(prob_df, 'cum_conf_curve.csv', 'CSV built! Click here to download your data!')
     st.markdown(tmp_download_link, unsafe_allow_html=True)
 
 
