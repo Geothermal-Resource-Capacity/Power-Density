@@ -78,7 +78,22 @@ st.write("Evaluation of geothermal resources")
 #Post figure image at the top
 ###Future goal - make this interactive, see points on hover and show current analysis as a point
 imgPath = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG'
-st.image(imgPath, caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
+#This built in function is breaking, so I'm trying another method
+#st.image(imgPath, caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
+#Alternate method for displaying image:
+#  From: https://pmbaumgartner.github.io/streamlitopedia/sizing-and-images.html
+# This will eventually be replaced by a interactive graph, so not a big deal.
+def img_to_bytes(img_path):
+    img_bytes = Path(img_path).read_bytes()
+    encoded = base64.b64encode(img_bytes).decode()
+    return encoded
+header_html = "<img src='data:image/png;base64,{}' class='img-fluid'>".format(
+    img_to_bytes("imgPath")
+)
+st.markdown(
+    header_html, unsafe_allow_html=True,
+)
+### End of image (figure) ########
 
 st.write('**1: Exploration, is it there?**') #Streamlit uses markdown for formatting
 
