@@ -170,3 +170,4 @@ if st.button('Build CSV for download'):
 
 st.write("") #blank line so space it out
 st.write("Made with ❤️ at [SWUNG 2021 geothermal hack-a-thon](https://softwareunderground.org/events/2021/5/13/geothermal-hackathon)")
+st.write("[github repo](https://github.com/Geothermal-Resource-Capacity) includes contact info.")
