@@ -162,10 +162,11 @@ with st_ex_AdvancedOutput:   #Make these results hidden until expanded
     st.markdown("___")
 
 #Perhaps this should be in the 'advanced' view expander too
-st.write("## Download confidence curve values:")
+st.write("### Download confidence curve values:")
 
 if st.button('Build CSV for download'):
     tmp_download_link = download_link(prob_df, 'cum_conf_curve.csv', 'CSV built! Click here to download your data!')
     st.markdown(tmp_download_link, unsafe_allow_html=True)
 
-
+st.write("") #blank line so space it out
+st.write("Made with ❤️ at [SWUNG 2021 geothermal hack-a-thon](https://softwareunderground.org/events/2021/5/13/geothermal-hackathon)")
