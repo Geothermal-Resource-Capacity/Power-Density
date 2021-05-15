@@ -2,12 +2,11 @@
 import numpy as np
 import scipy
 from scipy.stats import norm, lognorm
-import matplotlib.pyplot as plt
 import pandas as pd
 
 class prospect_Confidence(object):
     """  		  	   		     		  		  		    	 		 		   		 		  
-    A strategy learner that can learn a trading policy using the same indicators used in ManualStrategy.  		  	   		     		  		  		    	 		 		   		 		  
+
   		  	   		     		  		  		    	 		 		   		 		  
     :param verbose: If “verbose” is True, prints information for debugging.
         If verbose = False your code does not generate ANY output.
@@ -19,7 +18,6 @@ class prospect_Confidence(object):
         """
         self.verbose = verbose
 
-    # this method should create a QLearner, and train it for trading
 
     def calculate_cumulative_conf(self,
                                   areaP90: float=1.,
@@ -42,6 +40,12 @@ class prospect_Confidence(object):
         assert isinstance(pdP90, float), "pdP90 variable data type expected to be float"
         assert isinstance(pdP10, float), "pdP10 variable data type expected to be float"
 
+        if self.verbose:
+            print("areaP90: " , areaP90 )
+            print("areaP10: " , areaP10 )
+            print("pdP90: " , pdP90 )
+            print("pdP10: " , pdP10 )
+
         # calculate area > 250 °C
         area_mu = ((np.log(areaP90)+np.log(areaP10))/2)
         area_sigma = (np.log(areaP10)-np.log(areaP90))/((norm.ppf(0.9)-(norm.ppf(0.1))))
@@ -58,4 +62,37 @@ class prospect_Confidence(object):
         edsepc_tups = list(zip(indx,eds))
         prob_df = pd.DataFrame(edsepc_tups, columns = ['Cumulative confidence (%)', 'expected development size (MW)'])
 
-        self.cumulative_conf = prob_df
+        return prob_df
+
+
+    def add_scenarios(self,
+                   areaP90,
+                   areaP10,
+                   pdP90,
+                   pdP10,
+                   ):
+        """Calculate cumulative confidence level for expected development size in MW
+        Args:
+            areaP90 (array or list): pessimistic area in sqkm
+            areaP10 (array or list): optimistic area in sqkm
+            pdP90 (array or list): pessimistic power density in MWe/sqkm
+            pdP10 (array or list): optimistic power density in MWe/sqkm
+
+        Returns:
+            prob_df (pandas Dataframe): cumulative confidence curve in Reservoir Size by different scenarios
+        """
+
+        try:
+
+            # iterating over scenarios
+            list_scenario_df = []
+            for ap90, ap10, pd90, pd10 in zip(areaP90,areaP10,pdP90,pdP10):
+
+
+
+
+
+
+
+
+
