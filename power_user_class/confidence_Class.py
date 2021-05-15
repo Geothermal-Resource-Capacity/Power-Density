@@ -4,7 +4,7 @@ import scipy
 from scipy.stats import norm, lognorm
 import pandas as pd
 
-class prospect_Confidence(object):
+class prospect_confidence(object):
     """  		  	   		     		  		  		    	 		 		   		 		  
 
   		  	   		     		  		  		    	 		 		   		 		  
@@ -84,9 +84,34 @@ class prospect_Confidence(object):
 
         try:
 
+            assert (len(areaP90) == len(areaP10)) & \
+                   (len(areaP90) == len(pdP90)) & \
+                   (len(areaP90) == len(pdP10)), "length of scenario iterables should be the same"
+
+
             # iterating over scenarios
             list_scenario_df = []
             for ap90, ap10, pd90, pd10 in zip(areaP90,areaP10,pdP90,pdP10):
+                key = [str(ap90) + "_" + str(ap10) + "_"+ str(pd90) + "_" + str(pd10)]
+                scenario_temp = self.calculate_cumulative_conf(float(ap90), float(ap10), float(pd90), float(pd90))
+                scenario_temp.columns = pd.MultiIndex.from_product([key, scenario_temp.columns])
+                list_scenario_df.append(scenario_temp)
+
+            return( pd.concat(list_scenario_df, axis = 1))
+
+        except:
+            print("type error: list of floats expected")
+
+if __name__ == "__main__":
+    prospect_scenarios = prospect_confidence(verbose =False)
+    df_trades_strat = prospect_scenarios.add_scenarios(range(90,100,1),\
+                                                       range(100,110,1),\
+                                                       range(200,210,1),\
+                                                       range(250,260,1))
+
+    print("hello")
+
+
 
 
 
