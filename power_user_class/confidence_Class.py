@@ -1,13 +1,9 @@
-#libs for computation
 import numpy as np
-import scipy
 from scipy.stats import norm, lognorm
 import pandas as pd
 
 class prospect_confidence(object):
-    """  		  	   		     		  		  		    	 		 		   		 		  
-
-  		  	   		     		  		  		    	 		 		   		 		  
+    """
     :param verbose: If “verbose” is True, prints information for debugging.
         If verbose = False your code does not generate ANY output.
     """
@@ -71,7 +67,7 @@ class prospect_confidence(object):
                    pdP90,
                    pdP10,
                    ):
-        """Calculate cumulative confidence level for expected development size in MW
+        """ Iterate over scenarios and calculate cumulative confidence for each
         Args:
             areaP90 (array or list): pessimistic area in sqkm
             areaP10 (array or list): optimistic area in sqkm
@@ -83,33 +79,39 @@ class prospect_confidence(object):
         """
 
         try:
-
             assert (len(areaP90) == len(areaP10)) & \
                    (len(areaP90) == len(pdP90)) & \
                    (len(areaP90) == len(pdP10)), "length of scenario iterables should be the same"
 
+            #list of dfs to concat
+            list_scenario_df = []
 
             # iterating over scenarios
-            list_scenario_df = []
             for ap90, ap10, pd90, pd10 in zip(areaP90,areaP10,pdP90,pdP10):
+
+                #creating a key for df multi index by unique scenario
                 key = [str(ap90) + "_" + str(ap10) + "_"+ str(pd90) + "_" + str(pd10)]
+                #calculate cumulative confidences
                 scenario_temp = self.calculate_cumulative_conf(float(ap90), float(ap10), float(pd90), float(pd90))
+                #multi-index by scenario
                 scenario_temp.columns = pd.MultiIndex.from_product([key, scenario_temp.columns])
+                #append framse to list
                 list_scenario_df.append(scenario_temp)
 
+            #concat and return scenarios as a df
             return( pd.concat(list_scenario_df, axis = 1))
 
         except:
-            print("type error: list of floats expected")
+            print("Type or AttributeError: list or array of floats expected, all of equal length")
 
-if __name__ == "__main__":
-    prospect_scenarios = prospect_confidence(verbose =False)
-    df_trades_strat = prospect_scenarios.add_scenarios(range(90,100,1),\
-                                                       range(100,110,1),\
-                                                       range(200,210,1),\
-                                                       range(250,260,1))
+# if __name__ == "__main__":
+#     # prospect_scenarios = prospect_confidence(verbose =False)
+#     # df_trades_strat = prospect_scenarios.add_scenarios(np.arange(90,99,1),\
+#     #                                                    np.arange(100,110,1),\
+#     #                                                    np.arange(200,210,1),\
+#     #                                                    np.arange(250,260,1))
+#     print()
 
-    print("hello")
 
 
 
