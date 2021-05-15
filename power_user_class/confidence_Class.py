@@ -57,6 +57,7 @@ class prospect_confidence(object):
         indx = list(np.arange(0,100)[::-1])
         edsepc_tups = list(zip(indx,eds))
         prob_df = pd.DataFrame(edsepc_tups, columns = ['Cumulative confidence (%)', 'expected development size (MW)'])
+        prob_df.set_index('Cumulative confidence (%)', inplace = True)
 
         return prob_df
 
@@ -105,11 +106,7 @@ class prospect_confidence(object):
             print("Type or AttributeError: list or array of floats expected, all of equal length")
 
 # if __name__ == "__main__":
-#     # prospect_scenarios = prospect_confidence(verbose =False)
-#     # df_trades_strat = prospect_scenarios.add_scenarios(np.arange(90,99,1),\
-#     #                                                    np.arange(100,110,1),\
-#     #                                                    np.arange(200,210,1),\
-#     #                                                    np.arange(250,260,1))
+
 #     print()
 
 
