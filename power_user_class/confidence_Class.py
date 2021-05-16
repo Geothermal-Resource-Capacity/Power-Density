@@ -50,7 +50,6 @@ class prospect_confidence(object):
         powerdens_mu = ((np.log(pdP90)+np.log(pdP10))/2)
         powerdens_sigma = (np.log(pdP10)-np.log(pdP90))/((norm.ppf(0.9)-(norm.ppf(0.1))))
 
-
         capacity_mu = area_mu + powerdens_mu
         capacity_sigma = ((area_sigma**2)+(powerdens_sigma**2))**0.5
         eds = [lognorm.ppf(x/100, capacity_sigma, loc=0, scale=np.exp(capacity_mu)) for x in range(0,100)]
@@ -88,19 +87,19 @@ class prospect_confidence(object):
             list_scenario_df = []
 
             # iterating over scenarios
-            for ap90, ap10, pd90, pd10 in zip(areaP90,areaP10,pdP90,pdP10):
+            for a90, a10, p90, p10 in zip(areaP90,areaP10,pdP90,pdP10):
 
                 #creating a key for df multi index by unique scenario
-                key = [str(ap90) + "_" + str(ap10) + "_"+ str(pd90) + "_" + str(pd10)]
+                key = [str(a90) + "_" + str(a10) + "_"+ str(p90) + "_" + str(p10)]
                 #calculate cumulative confidences
-                scenario_temp = self.calculate_cumulative_conf(float(ap90), float(ap10), float(pd90), float(pd90))
+                scenario_temp = self.calculate_cumulative_conf(float(a90), float(a10), float(p90), float(p10))
                 #multi-index by scenario
                 scenario_temp.columns = pd.MultiIndex.from_product([key, scenario_temp.columns])
                 #append framse to list
                 list_scenario_df.append(scenario_temp)
 
             #concat and return scenarios as a df
-            return( pd.concat(list_scenario_df, axis = 1))
+            return(pd.concat(list_scenario_df, axis = 1))
 
         except:
             print("Type or AttributeError: list or array of floats expected, all of equal length")
