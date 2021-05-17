@@ -8,7 +8,7 @@ Cumming developed the Excel in the early 90s to replace a fortran method he had 
 
 The aim is to have a tool that operates on three levels: 
 
-1. Simple graphical interface in Steamlit for teaching and exploring the tool
+1. Simple graphical interface in Steamlit for teaching and exploring the tool - Check out the [current version of the app](https://share.streamlit.io/geothermal-resource-capacity/power-density/main/streamlit/Power-Density_streamlit.py)
 2. Expanded documentation as a Jupyter Notebook that is also deployed into Curvenote
 3. PyPI package for the power users who may want to test multiple scenarios all at once
 
