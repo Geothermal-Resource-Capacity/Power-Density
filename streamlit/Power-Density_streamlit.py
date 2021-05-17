@@ -25,7 +25,7 @@ def download_link(object_to_download, download_filename, download_link_text):
     download_link_text (str): Text to display for download link.
 
     Examples:
-    download_link(YOUR_DF, 'YOUR_DF.csv', 'Click here to download data!')
+    download_link(YOUR_DF, 'YOUR_DF.csv', 'CSV built! Click here to download your data!')
 
     """
     if isinstance(object_to_download,pd.DataFrame):
