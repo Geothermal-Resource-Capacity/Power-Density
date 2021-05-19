@@ -8,7 +8,7 @@ Cumming developed the Excel in the early 90s to replace a fortran method he had 
 
 The aim is to have a tool that operates on three levels: 
 
-1. Simple graphical interface in Steamlit for teaching and exploring the tool
+1. Simple graphical interface in Steamlit for teaching and exploring the tool - Check out the [current version of the app](https://share.streamlit.io/geothermal-resource-capacity/power-density/main/streamlit/Power-Density_streamlit.py)
 2. Expanded documentation as a Jupyter Notebook that is also deployed into Curvenote
 3. PyPI package for the power users who may want to test multiple scenarios all at once
 
@@ -44,7 +44,8 @@ The streamlit app is designed for people learning to do resource assessment or r
 - Select the distribution type (log normal or normal or other) that you want to use the analysis. Potentially add traingular and uniform (rectangular) distributions. If adding additional distribution types, the notebook may also require functionality for the user to specify values in addition to the P90 and P10 (e.g. max, min, mid). There may be a dependency between the distribution type and the types of input parameters which are required. 
 -  Option to add a graph/histogram showing the distribution of each input parameter so that the user can more clearly visualise the distributions they are adding. 
 -  Potential to investigate adding Monte Carlo sampling as an alternative method of combining the distributions of the input parameters (commonly used in oil and gas context)
--  Add P10:90 ratio as a single metric for describing the relative uncertainty range of the final results. 
+-  Could add P10:90 ratio as a single metric for describing the relative uncertainty range of the final results. 
+-  Could add probability density functions as an alternative means for viewing the results. 
 
 ## Juypter Notebook
 - Irene to either tidy up the digitised power density data or get a copy of the underlying data to make a plot for the streamlit app and the Jupyter notebook
