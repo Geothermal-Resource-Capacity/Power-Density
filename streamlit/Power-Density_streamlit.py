@@ -29,7 +29,7 @@ def download_link(object_to_download, download_filename, download_link_text):
 
     """
     if isinstance(object_to_download,pd.DataFrame):
-        object_to_download = object_to_download.to_csv(index=False)
+        object_to_download = object_to_download.to_csv(index=True)
 
     # some strings <-> bytes conversions necessary here
     b64 = base64.b64encode(object_to_download.encode()).decode()
