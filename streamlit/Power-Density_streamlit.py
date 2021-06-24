@@ -29,7 +29,7 @@ def download_link(object_to_download, download_filename, download_link_text):
 
     """
     if isinstance(object_to_download,pd.DataFrame):
-        object_to_download = object_to_download.to_csv(index=False)
+        object_to_download = object_to_download.to_csv(index=True)
 
     # some strings <-> bytes conversions necessary here
     b64 = base64.b64encode(object_to_download.encode()).decode()
@@ -139,6 +139,12 @@ powerdens_sigma = (np.log(PowerDens_P10)-np.log(PowerDens_P90))/((norm.ppf(1-0.1
 capacity_nu = area_nu + powerdens_nu
 capacity_sigma = ((area_sigma**2)+(powerdens_sigma**2))**0.5
 
+indices = ['area [sqkm]', 'power_density [MWe/sqkm]', 'capacity [MWe]']
+means_std = {'mean': [area_nu, powerdens_nu, capacity_nu],
+            'stdev': [area_sigma, powerdens_sigma, capacity_sigma]}
+
+param_df = pd.DataFrame.from_dict(means_std, orient='index', columns=indices)
+
 # Calculate cumulative confidence curve
 prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens_P10)
 
@@ -167,9 +173,13 @@ with st_ex_AdvancedOutput:   #Make these results hidden until expanded
 #Perhaps this should be in the 'advanced' view expander too
 st.write("### Download confidence curve values:")
 
-if st.button('Build CSV for download'):
+if st.button('Build Confidence-curve CSV for download'):
     tmp_download_link = download_link(prob_df, 'cum_conf_curve.csv', 'CSV built! Click here to download your data!')
     st.markdown(tmp_download_link, unsafe_allow_html=True)
+
+if st.button('Build parameter CSV for download'):
+    tmp_download_link_params = download_link(param_df, 'parameter_values.csv', 'CSV built! Click here to download your data!')
+    st.markdown(tmp_download_link_params, unsafe_allow_html=True)
 
 st.write("") #blank line so space it out
 st.write("Made with ❤️ at [SWUNG 2021 geothermal hack-a-thon](https://softwareunderground.org/events/2021/5/13/geothermal-hackathon)")
