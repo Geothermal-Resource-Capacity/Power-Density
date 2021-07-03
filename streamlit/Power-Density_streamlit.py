@@ -109,34 +109,43 @@ st.write(f'{Ptemp} \* {Pperm} * {Pchem} = {round(POSexpl*100,1)}% probability of
 st.markdown("___")
 st.write("## 2: How big is it?")
 st.write('Power density is one of several methods used to evaluate the development capacity of conventional geothermal resources. It involves multiplying the likely area of the productive resource (km2) with a power density (MWe/km2), where the former is defined using a conceptual model and the latter by comparison to analogous developed resources.')
+st.write('The method here uses a probabilistic framework that includes pessimistic (P90), most likely (P50) and optimistic (P10) estimates of area and power density and subsequently returns a probabilistic power capacity estimate.')
+
 
 st.write('### P90, P10 Conceptual Model Example')
+st.write('Resource data are integrated into a conceptual model, which is a systematic description of where fluid may flow though the crust and what the temperature, phase and chemistry of the fluid may be. The area estimates projected to surface for the P10 and P90 include only the potentially productive resource. The potentially productive resource depends on the desired power conversion technology or direct use application. Figure from Cumming 2016')
+imgPath1 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/improve_streamlit_markdown/figures/Cumming_2016_ConceptModel.png?raw=true'
+st.image(image=imgPath1, caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
+
 
 #Post figure image at the top
 ###Future goal - make this interactive, see points on hover and show current analysis as a point
 st.write('### Global Power Density')
-imgPath = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG?raw=true'
+st.write('The plot below depicts power density calculated by dividing the sustained production by the area within a merged 500 m buffer placed around production wells. A power density for the exploration prospect prior to drilling is selected based on similarity in the geologic setting and temperature. As more data becomes available for an exploration prospect, specific power density analogues may be identified. Figure from Wilmarth et al. 2015.')
+imgPath2 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG?raw=true'
 #This built in function is breaking.  Oh well.
-st.image(image=imgPath, caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
+st.image(image=imgPath2, caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
+
 
 st.write('### Input Paramaters')
+st.write('Input your P90 (pessimistic) and P10 (optimistic) estimates for temperature, area and power density')
 colA, colB = st.beta_columns(2) # Show sliders in 2 columns
 
 #probably should add a message/try catch that this must be numeric:
-Tmax = float(colA.text_input("Startup averages temperature for P90 reserves (degrees C)", 280))
-Tmin = float(colB.text_input("Minimum temperature for the P10 reservoir (degrees C)", 250))
+Tmax = float(colA.text_input("Average temperature (degC) in the P90 area", 280))
+Tmin = float(colB.text_input("Minimum temperature for the P10 area (degC)", 250))
 
 # USER INPUT 
 # Area > 250 deg C in km2
 
 #st.markdown("**Area > 250 degrees C, in KM^2**")
-Area_P90 = float(colA.text_input("Area > 250 degrees C, in KM^2 P90:", 1))
-Area_P10 = float(colB.text_input("Area P10:", 10))
+Area_P90 = float(colA.text_input("P90 (pessimistic) production area (km2)", 1))
+Area_P10 = float(colB.text_input("P10 (optimistic) production area (km2)", 10))
 
 # USER INPUT 
 #st.write("**Power Density 250 to 280 deg C (MWe/km2)**")
-PowerDens_P90 = float(colA.text_input("Power density in (MWe/km2) P90:", 10))
-PowerDens_P10 = float(colB.text_input("Power Density P10:", 24))
+PowerDens_P90 = float(colA.text_input("P90 (pessimistic) power density (MWe/km2)", 10))
+PowerDens_P10 = float(colB.text_input("P10 (optimistic) power density (MWe/km2)", 24))
 
 
 ## CALCULATIONS ################################################
