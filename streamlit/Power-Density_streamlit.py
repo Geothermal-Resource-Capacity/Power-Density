@@ -73,26 +73,27 @@ def calculate_cumulative_conf(areaP90: float=1., areaP10: float=10., pdP90: floa
 ## END of functions - Streamlit app below #################################
 ###########################################################################
 
-st.title('Power Density')
-st.write("Evaluation of geothermal resources")
+st.title('Exploration Tool for Conventional Geothermal Resources')
+st.write('This tool supports the process used by a technical resource team to (1) estimate the probability of exploration success and (2) make a probabilistic estimate of resource capacity using the lognormal power density method.')
 
 st.write('## 1: Is it there?') #Streamlit uses markdown for formatting
 
-st.write('Estimate the probability of exploration success prior to drilling the first well.')
+st.write('Estimate the probability of exploration success')
 
 st.write('Based on the data available, what is you percent confidence that the prospect has:') 
 st.write('1. Sufficient temperature for the desired power conversion technology or direct use application')
-st.write('2. enough permeability to support economic well flows')
-st.write('3. benign or manageable fluid chemistry') 
+st.write('2. Enough permeability to support economic well flows')
+st.write('3. Benign or manageable fluid chemistry') 
 
+st.write(' ')
 # Exploration portion of inputs ##########################
 
 col1, col2, col3 = st.beta_columns(3) # Show sliders in 3 columns
 
 #st.write("## Exploration Parameters")
-Ptemp = col1.slider('PTemperature', value=65, min_value=1, max_value=100,step=1, format='%i%%', key='Ptemp')
-Pperm = col2.slider('PPermeability', value=65, min_value=1, max_value=100,step=1, format='%i%%', key='Pperm')
-Pchem = col3.slider('PChemistry', value=95, min_value=1, max_value=100,step=1, format='%i%%', key='Pchem')
+Ptemp = col1.slider('Temperature', value=65, min_value=1, max_value=100,step=1, format='%i%%', key='Ptemp')
+Pperm = col2.slider('Permeability', value=65, min_value=1, max_value=100,step=1, format='%i%%', key='Pperm')
+Pchem = col3.slider('Chemistry', value=95, min_value=1, max_value=100,step=1, format='%i%%', key='Pchem')
 Ptemp /= 100 # Keep things in decimal percent, but display in percent. st isn't good about formating yet
 Pperm /= 100 # These don't need to be in the sidebar, but I want them close to the input
 Pchem /= 100 # I think it makes things clearer.
@@ -102,19 +103,23 @@ POSexpl = Ptemp * Pperm * Pchem
 #print("Probability of exploration success = {:.2f}%".format(round(POSexpl*100,0)))
 # Could potentially code in user option to adjust number of decimal places for POS
 
-st.write(f'{Ptemp} \* {Pperm} * {Pchem} = Probability of exploration success {round(POSexpl*100,1)}%')
+st.write(f'{Ptemp} \* {Pperm} * {Pchem} = {round(POSexpl*100,1)}% probability of exploration success')
 
 ##Appraisal and dev inputs###################
 st.markdown("___")
 st.write("## 2: How big is it?")
+st.write('Power density is one of several methods used to evaluate the development capacity of conventional geothermal resources. It involves multiplying the likely area of the productive resource (km2) with a power density (MWe/km2), where the former is defined using a conceptual model and the latter by comparison to analogous developed resources.')
+
+st.write('### P90, P10 Conceptual Model Example')
 
 #Post figure image at the top
 ###Future goal - make this interactive, see points on hover and show current analysis as a point
+st.write('### Global Power Density')
 imgPath = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG?raw=true'
 #This built in function is breaking.  Oh well.
 st.image(image=imgPath, caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
 
-
+st.write('### Input Paramaters')
 colA, colB = st.beta_columns(2) # Show sliders in 2 columns
 
 #probably should add a message/try catch that this must be numeric:
@@ -153,13 +158,17 @@ means_std = {'mean': [area_nu, powerdens_nu, capacity_nu],
 
 param_df = pd.DataFrame.from_dict(means_std, orient='index', columns=indices)
 
+
 # Calculate cumulative confidence curve
 prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens_P10)
+
+st.write('### Output Power Capacity')
+st.write('TBC - format the P10, P50 and P90 output here as f string')
 
 fig = px.bar(data_frame = prob_df, y='Cumulative confidence (%)', x='expected development size (MW)', orientation='h', range_x=[0,500])
 st.plotly_chart(fig)
 
-st_ex_AdvancedOutput = st.beta_expander(label="Computation outputs") #Make an expander object
+st_ex_AdvancedOutput = st.beta_expander(label="Detailed output") #Make an expander object
 with st_ex_AdvancedOutput:   #Make these results hidden until expanded
     ### Text output ###
     st.markdown("___")
