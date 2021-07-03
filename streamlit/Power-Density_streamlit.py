@@ -128,7 +128,7 @@ st.image(image=imgPath2, caption=None, width=None, use_column_width=None, clamp=
 
 
 st.write('### Input Paramaters')
-st.write('Input your P90 (pessimistic) and P10 (optimistic) estimates for temperature, area and power density')
+st.write('Input your P90 (pessimistic) and P10 (optimistic) estimates for temperature, area and power density to output lognormal power capacity (MW) and P50 area')
 colA, colB = st.beta_columns(2) # Show sliders in 2 columns
 
 #probably should add a message/try catch that this must be numeric:
@@ -136,8 +136,6 @@ Tmax = float(colA.text_input("Average temperature (degC) in the P90 area", 280))
 Tmin = float(colB.text_input("Minimum temperature for the P10 area (degC)", 250))
 
 # USER INPUT 
-# Area > 250 deg C in km2
-
 #st.markdown("**Area > 250 degrees C, in KM^2**")
 Area_P90 = float(colA.text_input("P90 (pessimistic) production area (km2)", 1))
 Area_P10 = float(colB.text_input("P10 (optimistic) production area (km2)", 10))
@@ -167,12 +165,14 @@ means_std = {'mean': [area_nu, powerdens_nu, capacity_nu],
 
 param_df = pd.DataFrame.from_dict(means_std, orient='index', columns=indices)
 
+st.write('need to output the P50 area here')
 
 # Calculate cumulative confidence curve
 prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens_P10)
 
 st.write('### Output Power Capacity')
-st.write('TBC - format the P10, P50 and P90 output here as f string')
+st.write('TBC - format the P10, P50 and P90 MWe output here as f string')
+
 
 fig = px.bar(data_frame = prob_df, y='Cumulative confidence (%)', x='expected development size (MW)', orientation='h', range_x=[0,500])
 st.plotly_chart(fig)
