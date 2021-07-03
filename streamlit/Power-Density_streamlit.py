@@ -16,6 +16,10 @@ import scipy
 from scipy.stats import norm, lognorm
 import matplotlib.pyplot as plt
 
+#
+# Helper functions
+#
+
 def download_link(object_to_download, download_filename, download_link_text):
     """
     Generates a link to download the given object_to_download. from https://discuss.streamlit.io/t/heres-a-download-function-that-works-for-dataframes-and-txt/4052
@@ -76,24 +80,29 @@ def calculate_cumulative_conf(areaP90: float=1., areaP10: float=10., pdP90: floa
 st.title('Exploration Tool for Conventional Geothermal Resources')
 st.write('This tool supports the process used by a technical resource team to (1) estimate the probability of exploration success and (2) make a probabilistic estimate of resource capacity using the lognormal power density method.')
 
-st.write('## 1: Is it there?') #Streamlit uses markdown for formatting
+st.write('## 1: Is it there?')
 
 st.write('Estimate the probability of exploration success')
+
+# NOTE need to find better way of formatting lists
 
 st.write('Based on the data available, what is you percent confidence that the prospect has:') 
 st.write('1. Sufficient temperature for the desired power conversion technology or direct use application')
 st.write('2. Enough permeability to support economic well flows')
 st.write('3. Benign or manageable fluid chemistry') 
 
-st.write(' ')
-# Exploration portion of inputs ##########################
+st.write(' ') # NOTE need to look into better method for spacing layout 
+
+#
+# Make sliders
+#
 
 col1, col2, col3 = st.beta_columns(3) # Show sliders in 3 columns
 
-#st.write("## Exploration Parameters")
 Ptemp = col1.slider('Temperature', value=65, min_value=1, max_value=100,step=1, format='%i%%', key='Ptemp')
 Pperm = col2.slider('Permeability', value=65, min_value=1, max_value=100,step=1, format='%i%%', key='Pperm')
 Pchem = col3.slider('Chemistry', value=95, min_value=1, max_value=100,step=1, format='%i%%', key='Pchem')
+
 Ptemp /= 100 # Keep things in decimal percent, but display in percent. st isn't good about formating yet
 Pperm /= 100 # These don't need to be in the sidebar, but I want them close to the input
 Pchem /= 100 # I think it makes things clearer.
@@ -103,7 +112,7 @@ POSexpl = Ptemp * Pperm * Pchem
 #print("Probability of exploration success = {:.2f}%".format(round(POSexpl*100,0)))
 # Could potentially code in user option to adjust number of decimal places for POS
 
-st.write(f'{Ptemp} \* {Pperm} * {Pchem} = {round(POSexpl*100,1)}% probability of exploration success')
+st.write(f'{round(Ptemp*100)}% temperature \* {round(Pperm*100)}% permeability * {round(Pchem*100)}% chemistry = {round(POSexpl*100)}% probability of exploration success')
 
 ##Appraisal and dev inputs###################
 st.markdown("___")
