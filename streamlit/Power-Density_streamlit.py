@@ -248,7 +248,7 @@ st.image(
 
 st.write('### Input Paramaters')
 st.write('Input your P90 (pessimistic) and P10 (optimistic) estimates for ' + 
-    'temperature, area and power density to output lognormal power capacity (MW) and P50 area')
+    'temperature, area and power density to output lognormal power capacity (MWe) and P50 area')
 
 colA, colB = st.beta_columns(2) # Show input cells in 2 columns
 
@@ -292,7 +292,8 @@ prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens
 # Output to user the lognormal P50 area
 #
 
-st.write('need to output the P50 area here')
+# NOTE below needs doing NOTE
+#st.write('need to output the P50 area here')
 
 
 #
@@ -303,7 +304,8 @@ st.write('### Output Power Capacity')
 
 # Print simple results summary
 
-st.write('TBC - format the P10, P50 and P90 MWe output here as f string')
+# NOTE below needs doing NOTE
+#st.write('TBC - format the P10, P50 and P90 MWe output here as f string')
 
 # Plot cumulative confidence curve
 
@@ -318,7 +320,7 @@ st.plotly_chart(fig)
 
 # Show/hide full results summary
 
-st_ex_AdvancedOutput = st.beta_expander(label="Detailed output") # Make an expander object
+st_ex_AdvancedOutput = st.beta_expander(label="Detailed output and downloads") # Make an expander object
 
 with st_ex_AdvancedOutput:   # Make these results hidden until expanded
     ### Text output ###
@@ -337,25 +339,25 @@ with st_ex_AdvancedOutput:   # Make these results hidden until expanded
     "capacity_sigma", capacity_sigma
     "capacity_nu", capacity_nu
 
+    st.write("### Click to download results")
+
+    if st.button('Build Confidence-curve CSV for download'):
+        tmp_download_link = download_link(prob_df, 'cum_conf_curve.csv', 'CSV built! Click here to download your data!')
+        st.markdown(tmp_download_link, unsafe_allow_html=True)
+
+    if st.button('Build parameter CSV for download'):
+        tmp_download_link_params = download_link(param_df, 'parameter_values.csv', 'CSV built! Click here to download your data!')
+        st.markdown(tmp_download_link_params, unsafe_allow_html=True)
+
     st.markdown("___")
 
+# ----------
+# App footer
+# ----------
 
-#
-# Results download for user
-#
+st.markdown("___")
 
-# NOTE perhaps include the download options in the 'advanced' view expander view
+st.write("") 
 
-st.write("### Download confidence curve values:")
-
-if st.button('Build Confidence-curve CSV for download'):
-    tmp_download_link = download_link(prob_df, 'cum_conf_curve.csv', 'CSV built! Click here to download your data!')
-    st.markdown(tmp_download_link, unsafe_allow_html=True)
-
-if st.button('Build parameter CSV for download'):
-    tmp_download_link_params = download_link(param_df, 'parameter_values.csv', 'CSV built! Click here to download your data!')
-    st.markdown(tmp_download_link_params, unsafe_allow_html=True)
-
-st.write("") # blank line so space it out
 st.write("Made with ❤️ at [SWUNG 2021 geothermal hack-a-thon](https://softwareunderground.org/events/2021/5/13/geothermal-hackathon)")
-st.write("[github repo](https://github.com/Geothermal-Resource-Capacity) includes contact info.")
+st.write("See the [github repo](https://github.com/Geothermal-Resource-Capacity/Power-Density) for project information and contributors")
