@@ -76,25 +76,26 @@ def calculate_cumulative_conf(areaP90: float=1., areaP10: float=10., pdP90: floa
 st.title('Power Density')
 st.write("Evaluation of geothermal resources")
 
-#Post figure image at the top
-###Future goal - make this interactive, see points on hover and show current analysis as a point
-imgPath = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG?raw=true'
-#This built in function is breaking.  Oh well.
-st.image(image=imgPath, caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
+st.write('## 1: Is it there?') #Streamlit uses markdown for formatting
 
+st.write('Estimate the probability of exploration success prior to drilling the first well.')
 
-st.write('**1: Exploration, is it there?**') #Streamlit uses markdown for formatting
+st.write('Based on the data available, what is you percent confidence that the prospect has:') 
+st.write('1. Sufficient temperature for the desired power conversion technology or direct use application')
+st.write('2. enough permeability to support economic well flows')
+st.write('3. benign or manageable fluid chemistry') 
 
 # Exploration portion of inputs ##########################
+
 col1, col2, col3 = st.beta_columns(3) # Show sliders in 3 columns
 
-st.write("## Exploration Parameters")
+#st.write("## Exploration Parameters")
 Ptemp = col1.slider('PTemperature', value=65, min_value=1, max_value=100,step=1, format='%i%%', key='Ptemp')
 Pperm = col2.slider('PPermeability', value=65, min_value=1, max_value=100,step=1, format='%i%%', key='Pperm')
-Pchem = col3.slider('Pchemistry', value=95, min_value=1, max_value=100,step=1, format='%i%%', key='Pchem')
-Ptemp /= 100 #Keep things in decimal percent, but display in percent. st isn't good about formating yet
-Pperm /= 100 #  These don't need to be in the sidebar, but I want them close to the input
-Pchem /= 100 #  I think it makes things clearer.
+Pchem = col3.slider('PChemistry', value=95, min_value=1, max_value=100,step=1, format='%i%%', key='Pchem')
+Ptemp /= 100 # Keep things in decimal percent, but display in percent. st isn't good about formating yet
+Pperm /= 100 # These don't need to be in the sidebar, but I want them close to the input
+Pchem /= 100 # I think it makes things clearer.
 
 #Show exploration input results ###################################
 POSexpl = Ptemp * Pperm * Pchem
@@ -105,7 +106,14 @@ st.write(f'{Ptemp} \* {Pperm} * {Pchem} = Probability of exploration success {ro
 
 ##Appraisal and dev inputs###################
 st.markdown("___")
-st.write("## Appraisal and Dev Parameters")
+st.write("## 2: How big is it?")
+
+#Post figure image at the top
+###Future goal - make this interactive, see points on hover and show current analysis as a point
+imgPath = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG?raw=true'
+#This built in function is breaking.  Oh well.
+st.image(image=imgPath, caption=None, width=None, use_column_width=None, clamp=False, channels='RGB', output_format='auto')
+
 
 colA, colB = st.beta_columns(2) # Show sliders in 2 columns
 
