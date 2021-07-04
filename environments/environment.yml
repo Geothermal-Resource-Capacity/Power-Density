@@ -1,4 +1,4 @@
-name: env_geothack
+name: env_powerdensity
 
 channels:
   - conda-forge
