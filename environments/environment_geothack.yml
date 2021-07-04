@@ -22,4 +22,6 @@ dependencies:
   - notebook
   - vega_datasets
   - streamlit
+  - xlrd
+  - openpyxl
   - pip
