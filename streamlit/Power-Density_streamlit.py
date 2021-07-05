@@ -178,8 +178,8 @@ if st.button('Build Confidence-curve CSV for download'):
     tmp_download_link = download_link(prob_df, 'cum_conf_curve.csv', 'CSV built! Click here to download your data!')
     st.markdown(tmp_download_link, unsafe_allow_html=True)
 
-if st.button('Build parameter CSV for download'):
-    tmp_download_link_params = download_link(param_df, 'parameter_values.csv', 'CSV built! Click here to download your data!')
+if st.button('Build input parameter CSV for download'):
+    tmp_download_link_params = download_link(param_df, 'input_parameter_values.csv', 'CSV built! Click here to download your data!')
     st.markdown(tmp_download_link_params, unsafe_allow_html=True)
 
 st.write("") #blank line so space it out
