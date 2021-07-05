@@ -139,11 +139,12 @@ powerdens_sigma = (np.log(PowerDens_P10)-np.log(PowerDens_P90))/((norm.ppf(1-0.1
 capacity_nu = area_nu + powerdens_nu
 capacity_sigma = ((area_sigma**2)+(powerdens_sigma**2))**0.5
 
-indices = ['area [sqkm]', 'power_density [MWe/sqkm]', 'capacity [MWe]']
-means_std = {'mean': [area_nu, powerdens_nu, capacity_nu],
-            'stdev': [area_sigma, powerdens_sigma, capacity_sigma]}
+indices = ['area [sqkm]', 'power_density [MWe/sqkm]']
+p_values = {'P90': [Area_P90, PowerDens_P90],
+            'P50': [np.exp(area_nu), np.exp(powerdens_nu)],
+            'P10': [Area_P10, PowerDens_P10]}
 
-param_df = pd.DataFrame.from_dict(means_std, orient='index', columns=indices)
+param_df = pd.DataFrame.from_dict(p_values, orient='index', columns=indices)
 
 # Calculate cumulative confidence curve
 prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens_P10)
