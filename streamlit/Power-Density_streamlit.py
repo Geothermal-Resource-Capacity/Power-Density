@@ -346,9 +346,9 @@ with st_ex_AdvancedOutput:   # Make these results hidden until expanded
         tmp_download_link = download_link(prob_df, 'cum_conf_curve.csv', 'CSV built! Click here to download your data!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
 
-    if st.button('Build parameter CSV for download'):
-        tmp_download_link_params = download_link(param_df, 'parameter_values.csv', 'CSV built! Click here to download your data!')
-        st.markdown(tmp_download_link_params, unsafe_allow_html=True)
+    #if st.button('Build parameter CSV for download'):
+    #    tmp_download_link_params = download_link(param_df, 'parameter_values.csv', 'CSV built! Click here to download your data!')
+    #    st.markdown(tmp_download_link_params, unsafe_allow_html=True)
 
     st.markdown("___")
 
