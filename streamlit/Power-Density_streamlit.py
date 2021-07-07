@@ -250,6 +250,8 @@ st.write('### Input Paramaters')
 st.write('Input your P90 (pessimistic) and P10 (optimistic) estimates for ' + 
     'temperature, area and power density to output lognormal power capacity (MWe) and P50 area')
 
+st.write('**Input P90 & P50 values**')
+
 colA, colB = st.beta_columns(2) # Show input cells in 2 columns
 
 # NOTE should probably should add a message/try catch that says these fields must be numeric
@@ -278,10 +280,15 @@ powerdens_sigma = (np.log(PowerDens_P10)-np.log(PowerDens_P90))/((norm.ppf(1-0.1
 capacity_nu = area_nu + powerdens_nu
 capacity_sigma = ((area_sigma**2)+(powerdens_sigma**2))**0.5
 
-indices = ['area [sqkm]', 'power_density [MWe/sqkm], capacity [MWe]']
+indices = ['area [sqkm]', 'power_density [MWe/sqkm]', 'capacity [MWe]']
 p_values = {'P90': [Area_P90, PowerDens_P90, 'P90_capacity'],
-            'P50': [np.exp(area_nu), np.exp(powerdens_nu), np.exp(capacity_nu)],
+            'P50': [round(np.exp(area_nu)), round(np.exp(powerdens_nu)), round(np.exp(capacity_nu))],
             'P10': [Area_P10, PowerDens_P10, 'P10_capacity']}
+
+# NOTE double check these outputs against the cumulative confidence curve
+# Why does np.exp(capacity_nu) = 49% in the cumulative confidence curve data rather than 50%?
+# Would be good also to include the P90 and P10 capacity into the output table
+
 
 param_df = pd.DataFrame.from_dict(p_values, orient='index', columns=indices)
 
@@ -292,9 +299,10 @@ prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens
 #
 # Output to user the lognormal P50 area
 #
+st.write('**Calculated P50 values**')
 
-# NOTE below needs doing NOTE
-#st.write('need to output the P50 area here')
+st.write('P50 area = ',round(np.exp(area_nu)))
+st.write('P50 power density = ',round(np.exp(powerdens_nu)))
 
 
 #
@@ -303,10 +311,13 @@ prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens
 
 st.write('### Output Power Capacity')
 
+#
 # Print simple results summary
+#
 
-# NOTE below needs doing NOTE
+# NOTE needs to be done
 #st.write('TBC - format the P10, P50 and P90 MWe output here as f string')
+
 
 # Plot cumulative confidence curve
 
@@ -346,9 +357,9 @@ with st_ex_AdvancedOutput:   # Make these results hidden until expanded
         tmp_download_link = download_link(prob_df, 'cum_conf_curve.csv', 'CSV built! Click here to download your data!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
 
-    #if st.button('Build parameter CSV for download'):
-    #    tmp_download_link_params = download_link(param_df, 'parameter_values.csv', 'CSV built! Click here to download your data!')
-    #    st.markdown(tmp_download_link_params, unsafe_allow_html=True)
+    if st.button('Build parameter CSV for download'):
+        tmp_download_link_params = download_link(param_df, 'parameter_values.csv', 'CSV built! Click here to download your data!')
+        st.markdown(tmp_download_link_params, unsafe_allow_html=True)
 
     st.markdown("___")
 
