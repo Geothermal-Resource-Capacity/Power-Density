@@ -1,7 +1,6 @@
 altair==4.1.0
 matplotlib==3.3.4
 matplotlib-inline==0.1.2
-notebook==6.3.0
 numpy==1.20.1
 pandas==1.2.4
 pip==21.0.1
