@@ -29,11 +29,13 @@ Collaborators:
 
 ## Repo structure
 - docs = published papers and original excel method
-- environments = environment file (needs moving)
+- environments = environment file for conda users
 - figures = plots called by either the streamlit app or other files
 - notebooks = ipynb used to build the methods and explore the data
 - power_user_class = ???
-- streamlit = Runs the Streamlit application
+- streamlit -
+  - Power-Density_streamlit.py = runs streamlit app
+  - requirements.txt = environment file used by streamlit sharing server
 - power_dens.py = primary function for the method
 
 ---
