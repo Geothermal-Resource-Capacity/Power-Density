@@ -201,17 +201,21 @@ st.write('Resource data are integrated into a conceptual model, which is ' +
     'what the temperature, phase and chemistry of the fluid may be. ' + 
     'The area estimates projected to surface for the P10 and P90 include only ' + 
     'the potentially productive resource. The potentially productive resource depends on' + 
-    'the desired power conversion technology or direct use application. Figure from Cumming 2016')
+    'the desired power conversion technology or direct use application.')
+    
+# Figure from Cumming 2016
 
-imgPath1 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/Cumming_2016_ConceptModel.png'
-st.image(
-    image=imgPath1, 
-    caption=None, 
-    width=None, 
-    use_column_width=None, 
-    clamp=False, 
-    channels='RGB', 
-    output_format='auto')
+# I've commented this out because the figure is not showing and in app and I am not sure why
+
+#imgPath1 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/0154825348647c91dacfa30351f8ad403f983a00/figures/Cumming_2016_ConceptModel.png'
+#st.image(
+#    image=imgPath1, 
+#    caption=None, 
+#    width=None, 
+#    use_column_width=None, 
+#    clamp=False, 
+#    channels='RGB', 
+#    output_format='auto')
 
 
 #
