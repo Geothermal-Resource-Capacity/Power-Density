@@ -203,7 +203,7 @@ st.write('Resource data are integrated into a conceptual model, which is ' +
     'the potentially productive resource. The potentially productive resource depends on' + 
     'the desired power conversion technology or direct use application. Figure from Cumming 2016')
 
-imgPath1 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/improve_streamlit_markdown/figures/Cumming_2016_ConceptModel.png?raw=true'
+imgPath1 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/Cumming_2016_ConceptModel.png'
 st.image(
     image=imgPath1, 
     caption=None, 
