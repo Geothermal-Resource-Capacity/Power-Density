@@ -259,9 +259,7 @@ st.image(
 
 st.write('# 2.2 Calculate Power Capacity')
 st.write('Input your P90 (pessimistic) and P10 (optimistic) estimates for ' + 
-    'area from your conceptual model and power density (see above).') 
-
-st.write('_power capacity = area x power density_')
+    'area from your conceptual model and power density based on developed analogues.') 
 
 colA, colB = st.beta_columns(2)
 
@@ -279,7 +277,8 @@ PowerDens_P10 = float(colB.text_input("P10 (optimistic) power density (MWe/km2)"
 # Power capacity calculations (under the hood)
 # --------------------------------------------
 
-# Calculate nu and sigma for area > 250 degC (the mean and variance in log units required for specifying lognormal distributions)
+# Calculate nu and sigma for resource area 
+# (the mean and variance in log units required for specifying lognormal distributions)
 area_nu = ((np.log(Area_P90)+np.log(Area_P10))/2)
 area_sigma = (np.log(Area_P10)-np.log(Area_P90))/((norm.ppf(1-0.1)-(norm.ppf(0.1))))
 
@@ -300,7 +299,6 @@ p_values = {'P90': [Area_P90, PowerDens_P90, 'P90_capacity'],
 # Why does np.exp(capacity_nu) = 49% in the cumulative confidence curve data rather than 50%?
 # Would be good also to include the P90 and P10 capacity into the output table
 
-
 param_df = pd.DataFrame.from_dict(p_values, orient='index', columns=indices)
 
 # Calculate cumulative confidence curve
@@ -311,36 +309,34 @@ prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens
 # Output to user the power capacity results
 # -----------------------------------------
 
-
-st.write('## Results Summary')
-
-colA, colB, colC, colD = st.beta_columns([2,1,1,1])
-colA.header("Paramater")
-colB.header("P10")
-colC.header("P50")
-colD.header("P90")
-
-colA.write('Area (km2)')
-colB.write('XXX')
-colC.write(round(np.exp(area_nu)))
-colD.write('XXX')
-
-colA.write('Power Density (MWe/km2)')
-colB.write('XXX')
-colC.write(round(np.exp(powerdens_nu)))
-colD.write('XXX')
-
-colA.write('Power Capacity (MWe)')
-colB.write('XXX')
-colC.write('XXX')
-colD.write('XXX')
+col1, col2, col3, col4 = st.beta_columns([2,1,1,1])
+col1.header("Output")
+col2.header("P90")
+col3.header("P50")
+col4.header("P10")
 
 
+col1.write('Area (km2)')
+col2.write(Area_P90)
+col3.write(round(np.exp(area_nu),1))
+col4.write(Area_P10)
 
-st.write('## Power Capacity Distribution')
+col1.write('Power Density (MWe/km2)')
+col2.write(PowerDens_P90)
+col3.write(round(np.exp(powerdens_nu),1))
+col4.write(PowerDens_P10)
 
 
-#st.write('TBC - format the P10, P50 and P90 MWe output here as f string')
+col1.write('Power Capacity (MWe)')
+
+P90_MWe = prob_df.iloc[9,1]
+col2.write(round(P90_MWe,1))
+
+P50_MWe = prob_df.iloc[49,1]
+col3.write(round(P50_MWe,1))
+
+P10_MWe = prob_df.iloc[89,1]
+col4.write(round(P10_MWe,1))
 
 # Plot cumulative confidence curve
 
