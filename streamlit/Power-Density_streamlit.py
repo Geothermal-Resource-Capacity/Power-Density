@@ -307,32 +307,40 @@ param_df = pd.DataFrame.from_dict(p_values, orient='index', columns=indices)
 prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens_P10)
 
 
-#
-# Output to user the lognormal P50 area
-#
-
-st.write('## Output P50 Area and Power Density')
-
-st.write('The P50 (most likely) area and power density values below are calculated using ' +
-    'the above input values and a lognormal distribution')
-
-st.write('P50 area = ',round(np.exp(area_nu)))
-st.write('P50 power density = ',round(np.exp(powerdens_nu)))
-
-
-#
+# -----------------------------------------
 # Output to user the power capacity results
-#
+# -----------------------------------------
 
-st.write('## Output Power Capacity')
 
-#
-# Print simple results summary
-#
+st.write('## Results Summary')
 
-# NOTE needs to be done
+colA, colB, colC, colD = st.beta_columns([2,1,1,1])
+colA.header("Paramater")
+colB.header("P10")
+colC.header("P50")
+colD.header("P90")
+
+colA.write('Area (km2)')
+colB.write('XXX')
+colC.write(round(np.exp(area_nu)))
+colD.write('XXX')
+
+colA.write('Power Density (MWe/km2)')
+colB.write('XXX')
+colC.write(round(np.exp(powerdens_nu)))
+colD.write('XXX')
+
+colA.write('Power Capacity (MWe)')
+colB.write('XXX')
+colC.write('XXX')
+colD.write('XXX')
+
+
+
+st.write('## Power Capacity Distribution')
+
+
 #st.write('TBC - format the P10, P50 and P90 MWe output here as f string')
-
 
 # Plot cumulative confidence curve
 
