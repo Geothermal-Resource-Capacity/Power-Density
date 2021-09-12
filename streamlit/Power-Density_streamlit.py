@@ -254,7 +254,7 @@ st.write('The plot above depicts the power density for developed reservoirs that
     'calculated by dividing the sustained production in MWe by the area within a merged 500 m buffer ' + 
     'placed around production wells. Therefore, values may not equate directly to the area of potentially productive resource ' + 
     'that is defined using the concept model process. However, it is a systematic approach and a reasonable approximation. '
-    'This plot is from Wilmarth et al. (2019), which expands on earlyer work published ' + 
+    'This plot is from Wilmarth et al. (2019), which expands on earlier work published ' + 
     '[here](https://www.geothermal-energy.org/pdf/IGAstandard/WGC/2015/16020.pdf). The underlying data has been' + 
     ' made open access in [this repository](https://github.com/Geothermal-Resource-Capacity/Power-Density).') 
 
