@@ -102,9 +102,11 @@ def calculate_cumulative_conf(areaP90: float=1., areaP10: float=10., pdP90: floa
 
 st.title('Exploration Tool for Conventional Geothermal Resources')
 
-st.write('This tool supports the process used by a technical resource team to ' + 
-    '(1) estimate the probability of exploration success and (2) make a ' + 
-    'probabilistic estimate of resource capacity using the lognormal power density method.')
+st.write('This tool does the calculations required for estimating the:')
+
+st.write('1. Probability of exploration success') 
+st.write('2. Resource capacity using the probabilistic, lognormal power density method')
+
 
 st.markdown("___")
 
@@ -179,70 +181,43 @@ st.markdown("___")
 # Intro text
 #
 
-st.write("# 2. Estimate Power Capacity")
+st.write("# 2. Power Capacity")
 
 st.write('Power density is one of several methods used to evaluate the ' + 
-    'power capacity of conventional geothermal resources.')
-
-st.write('The power density method implemented here uses a probabilistic framework that includes ' + 
+    'power capacity of conventional geothermal resources. ' + 
+    'The power density method implemented here uses a probabilistic framework where ' + 
     'pessimistic (P90), most likely (P50) and optimistic (P10) estimates of ' +
-    'area and power density and subsequently returns a probabilistic power capacity estimate.')
+    'area and power density are input and probabilistic power capacity estimate is returned. ' +
+    'This method involves three steps:')
 
-st.write('This probabilistic framework involves three steps:')  
-
-st.write('Step 1: Intergrate avalabe resource data into a set of conceptual models ' +
-    'that reflect the smallest (pessimistic, P90) and largest (optimistic, P10) resource' +
+st.write('**Step 1:** Intergrate avalabe resource data into a set of conceptual models ' +
+    'that reflect the smallest (pessimistic, P90) and largest (optimistic, P10) resource ' +
     'that could be present. These conceptual models are a systematic description of where fluid may flow though ' + 
-    'the crust and what the temperature, phase and chemistry of the fluid may be.')
+    'the crust and what the temperature, phase and chemistry of the fluid may be. ' +
+    'Refer to **this and this paper TBC** for how to construct these conceptual models.')
 
-st.write('Step 2: Project the potentially productive resource volume in the P10 and P90 conceptual models' + 
-    'to a plan-view map and calculate the area. The potentially productive resource depends on' + 
-    'the desired power conversion technology or direct use application.')
+st.write('**Step 2:** Project the potentially productive resource volume in the P10 and P90 conceptual models ' + 
+    'to a plan-view map and calculate the area. The potentially productive resource is essentially the extent of ' + 
+    'the temperature that can support the desired power conversion technology or direct use application. ' +
+    'Refer to **this paper TBC** (Figure X) for how to project the models to surface.' )
 
-st.write('Step 3: Calculate the power capacity by' +
+st.write('**Step 3:** Calculate the power capacity by ' +
     'multiplying the likely area of the productive resource (km2) with a ' + 
-    'power density (MWe/km2), where the latter by comparison to analogous developed resources.')
+    'power density (MWe/km2), where the latter by comparison to analogous developed resources. ' +
+    'The lognormal approach to power density used below is described in **this paper**.')
 
-st.write('Step 1 and 2 are described in this paper. The lognormal power density approach to ' +
-    'Step 3 which is implemented here is described in this paper')
-
-# cite bills lognormal paper
-
-#
-# Areas from the concept model (image and text)
-#
-
-# To use this method, a suite of physically reasonable conceptual models 
-
-
-    
-# Figure from Cumming 2016
-
-# I've commented this out because the figure is not showing and in app and I am not sure why
-
-#imgPath1 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/0154825348647c91dacfa30351f8ad403f983a00/figures/Cumming_2016_ConceptModel.png'
-#st.image(
-#    image=imgPath1, 
-#    caption=None, 
-#    width=None, 
-#    use_column_width=None, 
-#    clamp=False, 
-#    channels='RGB', 
-#    output_format='auto')
-
-
-#
-# Power density from analogues (image and text)
-#
-
-#
-# Pass in user paramaters for power density estimate
-#
+# --------------------------------
+# Select Appropriate Power Density
+# --------------------------------
 
 st.write('# 2.1 Estimate power density')
-st.write('Use your conceptual model to constrain likely resource temperature.')
 
-colA, colB = st.beta_columns(2) # 2 columns
+st.write('Power density is defined as the sustainable generation (in MWe) per square km or resource area. '+
+    'Below we step through how a reasonable range of power capacity can be identified for an exploration prospect.')
+
+st.write('Temperature has a great influence on power capacity, so we first use the conceptual model to constrain likely resource temperature.')
+
+colA, colB = st.beta_columns(2)
 
 # NOTE should probably should add a message/try catch that says these fields must be numeric
 Tmax = float(colA.text_input("Average temperature (degC) in the P90 area", 280))
@@ -251,15 +226,13 @@ Tmin = float(colB.text_input("Minimum temperature for the P10 area (degC)", 250)
 st.write('_Note that temperature values input here are used for reporting purposes and are not used in the power capacity calculation_')
 
 st.write('Use these temperatures and the geologic setting of your prospect to identify developed geothermal systems that have similar characteristics. ' +
-    'Constrain the possible range of power density using these developed analogues.')
-    
-#    'A power density for the exploration prospect ' + 
-#    'prior to drilling is selected based on similarity in the geologic setting and ' + 
-#    'temperature. As more data becomes available for an exploration prospect, ' + 
-#    'specific power density analogues may be identified. ')
+    'Constrain the possible range of power density using these developed analogues.' +
+    'We use geologic setting to identify analogues because geology influences permeability, ' + 
+    'which is another resource characteristic that greatly influences power capacity.')
 
 st.write('Refer to the following for information on developed resources:')
 # Make a list of links out to GRC, Stanford, IgA and NREL Wiki
+st.write('**list of resources to come**')
 
 st.write('If no analogues can be identified, then take the minimum temperature of the P10 area ' +
     'and find the possible range of power density using the entire dataset plotted above. ' + 
@@ -284,18 +257,16 @@ st.image(
 # NOTE Would be good to have another version of the power density plot that makes the underlying data clearer
 # NOTE Perhaps include something like toggling over datapoints to see the field name?
 
-
-
 st.write('# 2.2 Calculate Power Capacity')
 st.write('Input your P90 (pessimistic) and P10 (optimistic) estimates for ' + 
     'area from your conceptual model and power density (see above).') 
 
 st.write('_power capacity = area x power density_')
 
-colA, colB = st.beta_columns(2) # Show input cells in 2 columns
+colA, colB = st.beta_columns(2)
 
-colA.header("Area")
-colB.header("Power Density")
+colA.header("Input Area")
+colB.header("Input Power Density")
 
 Area_P90 = float(colA.text_input("P90 (pessimistic) production area (km2)", 1))
 PowerDens_P90 = float(colB.text_input("P90 (pessimistic) power density (MWe/km2)", 10))
@@ -304,9 +275,9 @@ PowerDens_P90 = float(colB.text_input("P90 (pessimistic) power density (MWe/km2)
 Area_P10 = float(colA.text_input("P10 (optimistic) production area (km2)", 10))
 PowerDens_P10 = float(colB.text_input("P10 (optimistic) power density (MWe/km2)", 24))
 
-#
-# Power density calculations (under the hood)
-#
+# --------------------------------------------
+# Power capacity calculations (under the hood)
+# --------------------------------------------
 
 # Calculate nu and sigma for area > 250 degC (the mean and variance in log units required for specifying lognormal distributions)
 area_nu = ((np.log(Area_P90)+np.log(Area_P10))/2)
@@ -339,10 +310,11 @@ prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens
 #
 # Output to user the lognormal P50 area
 #
-st.write('# Output P50 area and power density')
 
-st.write('The P50 area and power density below are calculated using ' +
-'the above input values and a lognormal distribution')
+st.write('## Output P50 Area and Power Density')
+
+st.write('The P50 (most likely) area and power density values below are calculated using ' +
+    'the above input values and a lognormal distribution')
 
 st.write('P50 area = ',round(np.exp(area_nu)))
 st.write('P50 power density = ',round(np.exp(powerdens_nu)))
@@ -352,7 +324,7 @@ st.write('P50 power density = ',round(np.exp(powerdens_nu)))
 # Output to user the power capacity results
 #
 
-st.write('# Output Power Capacity')
+st.write('## Output Power Capacity')
 
 #
 # Print simple results summary
