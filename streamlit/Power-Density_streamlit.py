@@ -185,8 +185,8 @@ st.write('Power density is one of several methods used to evaluate the ' +
 
 st.write('**Step 1:** Intergrate avalabe resource data into a set of conceptual models ' +
     'that reflect the smallest (pessimistic, P90) and largest (optimistic, P10) resource ' +
-    'that could be present. The P50 model is typically also discussed at this stage, but is not an input paramater for Step 3.' + 
-    'Refer to Cumming 2009](https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2009/cumming.pdf) ' +
+    'that could be present. The P50 model is typically also discussed at this stage, but is not an input paramater for Step 3. ' + 
+    'Refer to [Cumming 2009](https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2009/cumming.pdf) ' +
     'for how to construct conceptual models from surface exploration data. Refer to ' +
     '[Wallis et al 2017](https://www.geothermal-energy.org/pdf/IGAstandard/NZGW/2017/111_Wallis-Final_.pdf) ' + 
     'for approches to reservoir volume uncertainty and a tool that assists with developing the P10/P90 end-member models.')
@@ -201,6 +201,7 @@ st.write('**Step 2:** Project the potentially productive resource volume in the 
 st.write('**Step 3:** Calculate the power capacity by ' +
     'multiplying the P10 and P90 area of the potentially productive resource (km2) with a range of ' + 
     'power density (MWe/km2), where the latter by comparison to analogous developed resources. ' +
+    'Sections 2.1 and 2.2 below are designed to assist resource scientists with this step. '
     'The lognormal approach to power density used in this web-app is described in ' +
     '[Cumming 2016b](https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2016/Cumming.pdf).')
 
@@ -226,11 +227,11 @@ st.write('_Note that temperature values input here are used for reporting purpos
 st.write('Use these temperatures and the geologic setting of your prospect to ' + 
     'identify developed geothermal systems that have similar characteristics. ' +
     'We use geologic setting to identify analogues because geology influences permeability, ' + 
-    'which is another resource characteristic that greatly influences power capacity.' +
-    'Evaluation of the production area and power capacity of well-selected developed analogues ' + 
-    'provides the most reliable range of power density. ')
+    'which is another resource characteristic that greatly influences power capacity. ' )
 
-st.write('For open access information on developed resources, refer to conference paper databases ' +
+st.write('Evaluation of the production area and power capacity of well-selected developed analogues ' + 
+    'provides the most reliable range of power density. ' + 
+    'For open access information on developed resources, refer to conference paper databases ' +
     'maintained by the [International Geothermal Association](https://www.geothermal-energy.org/explore/our-databases/conference-paper-database/) ' + 
     'and [Geothermal Rising](https://www.geothermal-library.org/). ' + 
     'NREL maintains [geothermal wiki](https://openei.org/wiki/Geothermal_Areas) that is a growing repository of case study information.')
