@@ -100,7 +100,7 @@ def calculate_cumulative_conf(areaP90: float=1., areaP10: float=10., pdP90: floa
 # Headder and intro text
 # ----------------------
 
-st.title('Exploration Tool for Conventional Geothermal Resources')
+st.title('Conventional Geothermal Resource Exploration Tool')
 
 st.write('This tool does the calculations required for estimating the:')
 
@@ -127,13 +127,12 @@ st.write('This is a simple method for estimating the probability of exploration 
 
 # NOTE need to find better way of formatting lists
 
-st.write('Based on the data available, what is you percent confidence that the prospect has:') 
+st.write('Based on the data available, what is the percent confidence that the prospect has:') 
 st.write('1. Sufficient temperature for the desired power conversion technology or direct use application')
 st.write('2. Enough permeability to support economic well flows')
 st.write('3. Benign or manageable fluid chemistry') 
 
 st.write(' ') # NOTE need to look into better method for spacing layout 
-
 
 #
 # Make sliders
@@ -187,8 +186,8 @@ st.write('Power density is one of several methods used to evaluate the ' +
     'power capacity of conventional geothermal resources. ' + 
     'The power density method implemented here uses a probabilistic framework where ' + 
     'pessimistic (P90), most likely (P50) and optimistic (P10) estimates of ' +
-    'area and power density are input and probabilistic power capacity estimate is returned. ' +
-    'This method involves three steps:')
+    'area and power density are input and a probability distbution of power capacity is returned. ' +
+    'The entire method involves three steps, and this tool does the calculations required for the third step.')
 
 st.write('**Step 1:** Intergrate avalabe resource data into a set of conceptual models ' +
     'that reflect the smallest (pessimistic, P90) and largest (optimistic, P10) resource ' +
@@ -197,14 +196,15 @@ st.write('**Step 1:** Intergrate avalabe resource data into a set of conceptual 
     'Refer to **this and this paper TBC** for how to construct these conceptual models.')
 
 st.write('**Step 2:** Project the potentially productive resource volume in the P10 and P90 conceptual models ' + 
-    'to a plan-view map and calculate the area. The potentially productive resource is essentially the extent of ' + 
+    'to a plan-view map and calculate the area. The potentially productive resource is the extent of ' + 
     'the temperature that can support the desired power conversion technology or direct use application. ' +
-    'Refer to **this paper TBC** (Figure X) for how to project the models to surface.' )
+    'This means that resource areas below the temperature limit of preferred power conversion technology are excluded. '
+    'Refer to **this paper TBC** (Figure X) for how to project the conceptual models to surface and calculate the area.' )
 
 st.write('**Step 3:** Calculate the power capacity by ' +
-    'multiplying the likely area of the productive resource (km2) with a ' + 
+    'multiplying the area of the potentially productive resource (km2) with a ' + 
     'power density (MWe/km2), where the latter by comparison to analogous developed resources. ' +
-    'The lognormal approach to power density used below is described in **this paper**.')
+    'The lognormal approach to power density used here is described in **this paper**.')
 
 # --------------------------------
 # Select Appropriate Power Density
@@ -212,8 +212,8 @@ st.write('**Step 3:** Calculate the power capacity by ' +
 
 st.write('# 2.1 Estimate power density')
 
-st.write('Power density is defined as the sustainable generation (in MWe) per square km or resource area. '+
-    'Below we step through how a reasonable range of power capacity can be identified for an exploration prospect.')
+st.write('Power density is defined as the sustainable generation (in megawatts) per square kilometer of productive resource area. '+
+    'Below we step through how a reasonable range of power capacity can be identified for an exploration prospect. ')
 
 st.write('Temperature has a great influence on power capacity, so we first use the conceptual model to constrain likely resource temperature.')
 
@@ -226,7 +226,7 @@ Tmin = float(colB.text_input("Minimum temperature for the P10 area (degC)", 250)
 st.write('_Note that temperature values input here are used for reporting purposes and are not used in the power capacity calculation_')
 
 st.write('Use these temperatures and the geologic setting of your prospect to identify developed geothermal systems that have similar characteristics. ' +
-    'Constrain the possible range of power density using these developed analogues.' +
+    'Constrain the possible range of power density using these developed analogues. ' +
     'We use geologic setting to identify analogues because geology influences permeability, ' + 
     'which is another resource characteristic that greatly influences power capacity.')
 
@@ -235,13 +235,14 @@ st.write('Refer to the following for information on developed resources:')
 st.write('**list of resources to come**')
 
 st.write('If no analogues can be identified, then take the minimum temperature of the P10 area ' +
-    'and find the possible range of power density using the entire dataset plotted above. ' + 
-    'For example, a minimum P10 temperature of 250degC would yeld a power density range of 2 - 23 MW/km2')
+    'and find the possible range of power density using the database of power density plotted below. ' + 
+    'For example, a minimum P10 temperature of 250degC would yeld a power density range of 2 - 23 MW/km2.')
 
 st.write('The plot below depicts the power density for developed reservoirs that was ' + 
     'calculated by dividing the sustained production in MWe by the area within a merged 500 m buffer ' + 
-    'placed around production wells. This plot is from Wilmarth et al. 2015 ' +
-    'and the underlying data has been made open access HERE -- link to be added --') 
+    'placed around production wells. Therefore, values may not equate directly to the area of potentially productive resource ' + 
+    'that is defined using the concept model process. However, it is a systematic approach and a reasonable approximation. '
+    'This plot is from Wilmarth et al. 2015 and the underlying data has been made open access HERE -- link to be added --') 
 
 imgPath2 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG?raw=true'
 st.image(
@@ -338,14 +339,17 @@ col3.write(round(P50_MWe,1))
 P10_MWe = prob_df.iloc[89,1]
 col4.write(round(P10_MWe,1))
 
+st.write('')
 # Plot cumulative confidence curve
+cola, colb = st.beta_columns(2)
+x_max = float(cola.text_input("Maximum MWe for the cumulative confidence plot below", 500))
 
 fig = px.bar(
     data_frame = prob_df, 
     y='Cumulative confidence (%)', 
     x='expected development size (MW)', 
     orientation='h', 
-    range_x=[0,500])
+    range_x=[0,x_max])
 
 st.plotly_chart(fig)
 
