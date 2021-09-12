@@ -117,9 +117,11 @@ st.markdown("___")
 # Intro text 
 #
 
-st.write('## 1: Is it there?')
 
-st.write('Estimate the probability of exploration success')
+st.write('# 1. Probability of Exploration Success')
+
+st.write('This is a simple method for estimating the probability of exploration success, ' + 
+    'where exploration success is defined as discoving a comershally viable resource.')
 
 # NOTE need to find better way of formatting lists
 
@@ -177,31 +179,42 @@ st.markdown("___")
 # Intro text
 #
 
-st.write("## 2: How big is it?")
+st.write("# 2. Estimate Power Capacity")
 
 st.write('Power density is one of several methods used to evaluate the ' + 
-    'development capacity of conventional geothermal resources. It involves ' +
-    'multiplying the likely area of the productive resource (km2) with a ' + 
-    'power density (MWe/km2), where the former is defined using a ' + 
-    'conceptual model and the latter by comparison to analogous developed resources.')
+    'power capacity of conventional geothermal resources.')
 
-st.write('The method here uses a probabilistic framework that includes ' + 
+st.write('The power density method implemented here uses a probabilistic framework that includes ' + 
     'pessimistic (P90), most likely (P50) and optimistic (P10) estimates of ' +
     'area and power density and subsequently returns a probabilistic power capacity estimate.')
 
+st.write('This probabilistic framework involves three steps:')  
+
+st.write('Step 1: Intergrate avalabe resource data into a set of conceptual models ' +
+    'that reflect the smallest (pessimistic, P90) and largest (optimistic, P10) resource' +
+    'that could be present. These conceptual models are a systematic description of where fluid may flow though ' + 
+    'the crust and what the temperature, phase and chemistry of the fluid may be.')
+
+st.write('Step 2: Project the potentially productive resource volume in the P10 and P90 conceptual models' + 
+    'to a plan-view map and calculate the area. The potentially productive resource depends on' + 
+    'the desired power conversion technology or direct use application.')
+
+st.write('Step 3: Calculate the power capacity by' +
+    'multiplying the likely area of the productive resource (km2) with a ' + 
+    'power density (MWe/km2), where the latter by comparison to analogous developed resources.')
+
+st.write('Step 1 and 2 are described in this paper. The lognormal power density approach to ' +
+    'Step 3 which is implemented here is described in this paper')
+
+# cite bills lognormal paper
 
 #
 # Areas from the concept model (image and text)
 #
 
-st.write('### P90, P10 Conceptual Model Example')
+# To use this method, a suite of physically reasonable conceptual models 
 
-st.write('Resource data are integrated into a conceptual model, which is ' + 
-    'a systematic description of where fluid may flow though the crust and ' + 
-    'what the temperature, phase and chemistry of the fluid may be. ' + 
-    'The area estimates projected to surface for the P10 and P90 include only ' + 
-    'the potentially productive resource. The potentially productive resource depends on' + 
-    'the desired power conversion technology or direct use application.')
+
     
 # Figure from Cumming 2016
 
@@ -222,14 +235,40 @@ st.write('Resource data are integrated into a conceptual model, which is ' +
 # Power density from analogues (image and text)
 #
 
-st.write('### Global Power Density')
+#
+# Pass in user paramaters for power density estimate
+#
 
-st.write('The plot below depicts power density calculated by dividing the ' + 
-    'sustained production in MWe by the area within a merged 500 m buffer ' + 
-    'placed around production wells. A power density for the exploration prospect ' + 
-    'prior to drilling is selected based on similarity in the geologic setting and ' + 
-    'temperature. As more data becomes available for an exploration prospect, ' + 
-    'specific power density analogues may be identified. Figure from Wilmarth et al. 2015.')
+st.write('# 2.1 Estimate power density')
+st.write('Use your conceptual model to constrain likely resource temperature.')
+
+colA, colB = st.beta_columns(2) # 2 columns
+
+# NOTE should probably should add a message/try catch that says these fields must be numeric
+Tmax = float(colA.text_input("Average temperature (degC) in the P90 area", 280))
+Tmin = float(colB.text_input("Minimum temperature for the P10 area (degC)", 250))
+
+st.write('_Note that temperature values input here are used for reporting purposes and are not used in the power capacity calculation_')
+
+st.write('Use these temperatures and the geologic setting of your prospect to identify developed geothermal systems that have similar characteristics. ' +
+    'Constrain the possible range of power density using these developed analogues.')
+    
+#    'A power density for the exploration prospect ' + 
+#    'prior to drilling is selected based on similarity in the geologic setting and ' + 
+#    'temperature. As more data becomes available for an exploration prospect, ' + 
+#    'specific power density analogues may be identified. ')
+
+st.write('Refer to the following for information on developed resources:')
+# Make a list of links out to GRC, Stanford, IgA and NREL Wiki
+
+st.write('If no analogues can be identified, then take the minimum temperature of the P10 area ' +
+    'and find the possible range of power density using the entire dataset plotted above. ' + 
+    'For example, a minimum P10 temperature of 250degC would yeld a power density range of 2 - 23 MW/km2')
+
+st.write('The plot below depicts the power density for developed reservoirs that was ' + 
+    'calculated by dividing the sustained production in MWe by the area within a merged 500 m buffer ' + 
+    'placed around production wells. This plot is from Wilmarth et al. 2015 ' +
+    'and the underlying data has been made open access HERE -- link to be added --') 
 
 imgPath2 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG?raw=true'
 st.image(
@@ -246,26 +285,23 @@ st.image(
 # NOTE Perhaps include something like toggling over datapoints to see the field name?
 
 
-#
-# Pass in user paramaters for power density estimate
-#
 
-st.write('### Input Paramaters')
+st.write('# 2.2 Calculate Power Capacity')
 st.write('Input your P90 (pessimistic) and P10 (optimistic) estimates for ' + 
-    'temperature, area and power density to output lognormal power capacity (MWe) and P50 area')
+    'area from your conceptual model and power density (see above).') 
 
-st.write('**Input P90 & P50 values**')
+st.write('_power capacity = area x power density_')
 
 colA, colB = st.beta_columns(2) # Show input cells in 2 columns
 
-# NOTE should probably should add a message/try catch that says these fields must be numeric
-Tmax = float(colA.text_input("Average temperature (degC) in the P90 area", 280))
-Tmin = float(colB.text_input("Minimum temperature for the P10 area (degC)", 250))
+colA.header("Area")
+colB.header("Power Density")
 
 Area_P90 = float(colA.text_input("P90 (pessimistic) production area (km2)", 1))
-Area_P10 = float(colB.text_input("P10 (optimistic) production area (km2)", 10))
+PowerDens_P90 = float(colB.text_input("P90 (pessimistic) power density (MWe/km2)", 10))
 
-PowerDens_P90 = float(colA.text_input("P90 (pessimistic) power density (MWe/km2)", 10))
+
+Area_P10 = float(colA.text_input("P10 (optimistic) production area (km2)", 10))
 PowerDens_P10 = float(colB.text_input("P10 (optimistic) power density (MWe/km2)", 24))
 
 #
@@ -303,7 +339,10 @@ prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens
 #
 # Output to user the lognormal P50 area
 #
-st.write('**Calculated P50 values**')
+st.write('# Output P50 area and power density')
+
+st.write('The P50 area and power density below are calculated using ' +
+'the above input values and a lognormal distribution')
 
 st.write('P50 area = ',round(np.exp(area_nu)))
 st.write('P50 power density = ',round(np.exp(powerdens_nu)))
@@ -313,7 +352,7 @@ st.write('P50 power density = ',round(np.exp(powerdens_nu)))
 # Output to user the power capacity results
 #
 
-st.write('### Output Power Capacity')
+st.write('# Output Power Capacity')
 
 #
 # Print simple results summary
