@@ -115,7 +115,7 @@ st.markdown("___")
 st.write('# 1. Probability of Exploration Success')
 
 st.write('This is a transparent method for estimating the probability of exploration success, ' + 
-    'where exploration success is defined as discoving a comershally viable resource.')
+    'where exploration success is defined as discovering a commercially viable resource.')
 
 # NOTE need to find better way of formatting lists
 
@@ -179,17 +179,17 @@ st.write("# 2. Power Capacity")
 st.write('Power density is one of several methods used to evaluate the ' + 
     'power capacity of conventional geothermal resources. ' + 
     'The power density method implemented here uses a probabilistic framework where ' + 
-    'pessimistic (P90) and optimistic (P10) estimates of area and power density' +
-    'are input and a probability distbution of power capacity is returned. ' +
+    'pessimistic (P90) and optimistic (P10) estimates of area and power density ' +
+    'are input and a probability distribution of power capacity is returned. ' +
     'The entire method involves three steps, and this tool does the calculations required for the third step.')
 
-st.write('**Step 1:** Intergrate avalabe resource data into a set of conceptual models ' +
+st.write('**Step 1:** Integrates available resource data into a set of conceptual models ' +
     'that reflect the smallest (pessimistic, P90) and largest (optimistic, P10) resource ' +
-    'that could be present. The P50 model is typically also discussed at this stage, but is not an input paramater for Step 3. ' + 
+    'that could be present. The P50 model is typically also discussed at this stage, but is not an input parameter for Step 3. ' + 
     'Refer to [Cumming 2009](https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2009/cumming.pdf) ' +
     'for how to construct conceptual models from surface exploration data. Refer to ' +
     '[Wallis et al 2017](https://www.geothermal-energy.org/pdf/IGAstandard/NZGW/2017/111_Wallis-Final_.pdf) ' + 
-    'for approches to reservoir volume uncertainty and a tool that assists with developing the P10/P90 end-member models.')
+    'for approaches to reservoir volume uncertainty and a tool that assists with developing the P10/P90 end-member models.')
 
 st.write('**Step 2:** Project the potentially productive resource volume in the P10 and P90 conceptual models ' + 
     'to a plan-view map and calculate the area. The potentially productive resource is the extent of ' + 
@@ -238,7 +238,7 @@ st.write('Evaluation of the production area and power capacity of well-selected 
 
 st.write('If no analogues can be identified, then take the minimum temperature of the P10 area ' +
     'and find a range using the database of power density that is plotted below. ' + 
-    'For example, a minimum P10 temperature of 250degC would yeld a power density range of 2 - 23 MW/km2.')
+    'For example, a minimum P10 temperature of 250degC would yield a power density range of 2 - 23 MW/km2.')
 
 imgPath2 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG?raw=true'
 st.image(
@@ -397,6 +397,11 @@ with st_ex_AdvancedOutput:   # Make these results hidden until expanded
 
     st.write("### Click to download results")
 
+    # Note, new versions of streamlit have a built in download button
+    #  If the current version ever brakes, consider switching to the built-in
+    #  Link below, scroll down slightly from there.
+    #   https://docs.streamlit.io/en/stable/api.html#display-interactive-widgets
+    
     if st.button('Build Confidence-curve CSV for download'):
         tmp_download_link = download_link(prob_df, 'cum_conf_curve.csv', 'CSV built! Click here to download your data!')
         st.markdown(tmp_download_link, unsafe_allow_html=True)
