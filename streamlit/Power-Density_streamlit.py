@@ -132,7 +132,7 @@ st.write(' ') # NOTE need to look into better method for spacing layout
 # Make sliders
 #
 
-col1, col2, col3 = st.beta_columns(3) # Show sliders in 3 columns
+col1, col2, col3 = st.columns(3) # Show sliders in 3 columns
 
 Ptemp = col1.slider('Temperature', value=65, min_value=1, max_value=100,step=1, format='%i%%', key='Ptemp')
 Pperm = col2.slider('Permeability', value=65, min_value=1, max_value=100,step=1, format='%i%%', key='Pperm')
@@ -216,7 +216,7 @@ st.write('Power density is defined as the sustainable generation (in megawatts) 
 
 st.write('Temperature has a great influence on power capacity, so we first use the conceptual model to constrain likely resource temperature.')
 
-colA, colB = st.beta_columns(2)
+colA, colB = st.columns(2)
 
 # NOTE should probably should add a message/try catch that says these fields must be numeric
 Tmax = float(colA.text_input("Average temperature (degC) in the P90 area", 280))
@@ -270,7 +270,7 @@ st.write('# 2.2 Calculate Power Capacity')
 st.write('Input your P90 (pessimistic) and P10 (optimistic) estimates for ' + 
     'area from your conceptual model and power density based on developed analogues.') 
 
-colA, colB = st.beta_columns(2)
+colA, colB = st.columns(2)
 
 colA.header("Input Area")
 colB.header("Input Power Density")
@@ -321,7 +321,7 @@ prob_df = calculate_cumulative_conf(Area_P90, Area_P10, PowerDens_P90, PowerDens
 # Table summarising input and output 
 #
 
-col1, col2, col3, col4 = st.beta_columns([2,1,1,1])
+col1, col2, col3, col4 = st.columns([2,1,1,1])
 
 # Table headder
 col1.header("Output")
@@ -359,7 +359,7 @@ col4.write(round(P10_MWe,1))
 st.write('')
 
 # User input field for x axis max limit
-cola, colb = st.beta_columns(2)
+cola, colb = st.columns(2)
 x_max = float(cola.text_input("Maximum MWe for the cumulative confidence plot below", 500))
 
 # Plotly plot setup
@@ -376,7 +376,7 @@ st.plotly_chart(fig)
 # Power capacity - Show/hide full results summary and downloadable results 
 # -------------------------------------------------------------------------
 
-st_ex_AdvancedOutput = st.beta_expander(label="Detailed output and downloads") # Make an expander object
+st_ex_AdvancedOutput = st.expander(label="Detailed output and downloads") # Make an expander object
 
 with st_ex_AdvancedOutput:   # Make these results hidden until expanded
     ### Text output ###
