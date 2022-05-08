@@ -1,4 +1,4 @@
-﻿Field,aveT_degC_WGC2020,PwrDens_MWperkm2_WGC2020,Tectonic_setting_WGC2020,System_type_Wallis2022,Enthalpy_Wallis2022
+﻿Field,aveT_degC,PwrDens_MWperkm2,Tectonic_setting,System_type,Enthalpy
 Ahuachapan,250,14.41251252,Arc,Arc,Two-phase - liquid dominated
 Alasehir,185,7.782423013,,Not classified,Hot water - intermediate temperature
 Amatitlán,285,7.692307692,,Not classified,Two-phase - liquid dominated
@@ -107,7 +107,3 @@ Yamagawa,305,6.102604394,Arc,Arc,Two-phase - liquid dominated
 Yanaizu-Nishiyama,300,7.474570865,Arc,Arc,Two-phase - liquid dominated
 Yangbajain,175,3.007048054,Other,Not classified,Hot water - intermediate temperature
 Zunil,290,13.52941176,Arc,Arc,Two-phase - liquid dominated
-,,,,,
-,,,,,
-,,,,,
-,,,,,
