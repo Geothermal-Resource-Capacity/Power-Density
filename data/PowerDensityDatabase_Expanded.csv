@@ -1,4 +1,4 @@
-﻿Field,aveT_degC,PwrDens_MWperkm2,Tectonic_setting,System_type,Enthalpy
+﻿Field,Average temperature [degC],Power density [MWe/km2],Tectonic setting,System type,Enthalpy classification
 Ahuachapan,250,14.41251252,Arc,Arc,Two-phase - liquid dominated
 Alasehir,185,7.782423013,,Not classified,Hot water - intermediate temperature
 Amatitlán,285,7.692307692,,Not classified,Two-phase - liquid dominated
