@@ -240,27 +240,25 @@ st.write('If no analogues can be identified, then take the minimum temperature o
     'and find a range using the database of power density that is plotted below. ' + 
     'For example, a minimum P10 temperature of 250degC would yield a power density range of 2 - 23 MW/km2.')
 
-imgPath2 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG?raw=true'
-st.image(
-    image=imgPath2, 
-    caption=None, 
-    width=None, 
-    use_column_width=None, 
-    clamp=False, 
-    channels='RGB', 
-    output_format='auto')
+pd_database = pd.read_csv(r'../data/PowerDensityDatabase_Expanded.csv')
+fig = px.scatter(
+    pd_database, 
+    x='Average temperature [degC]', 
+    y='Power density [MWe/km2]', 
+    color='System type',
+    hover_data=['Field', 'System type', 'Average temperature [degC]', 'Enthalpy classification', 'Power density [MWe/km2]'],
+)
 
-st.write('The plot above depicts the power density for developed reservoirs that was ' + 
+st.plotly_chart(fig)
+
+st.write('Power density is plotted above for developed reservoirs. It was ' + 
     'calculated by dividing the sustained production in MWe by the area within a merged 500 m buffer ' + 
     'placed around production wells. Therefore, values may not equate directly to the area of potentially productive resource ' + 
     'that is defined using the concept model process. However, it is a systematic approach and a reasonable approximation. '
-    'This plot is from Wilmarth et al. (2019), which expands on earlier work published ' + 
-    '[here](https://www.geothermal-energy.org/pdf/IGAstandard/WGC/2015/16020.pdf). The underlying data has been' + 
-    ' made open access in [this repository](https://github.com/Geothermal-Resource-Capacity/Power-Density).') 
-
-# NOTE Would be good to make the power density plot interactive in future
-# NOTE Would be good to have another version of the power density plot that makes the underlying data clearer
-# NOTE Perhaps include something like toggling over datapoints to see the field name?
+    'The power density and average temperature are from Wilmarth et al. (2019), which expands on earlier work published ' + 
+    '[here](https://www.geothermal-energy.org/pdf/IGAstandard/WGC/2015/16020.pdf). The system type and enthalpy classification ' +
+    'are from literature review conducted by Irene Wallis. The data in this plot has been ' + 
+    'made open access in [this repository](https://github.com/Geothermal-Resource-Capacity/Power-Density) under an Apache 2 license.') 
 
 # ---------------------------
 # Power capacity - user input
