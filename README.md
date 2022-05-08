@@ -1,7 +1,7 @@
 # Lognormal Power Density Resource Capacity Estimate 
 ## Converts the Cumming Excel tool into simple Python web-app
 
-[Click here to go to the app](https://share.streamlit.io/geothermal-resource-capacity/power-density/main/streamlit/Power-Density_streamlit.py)
+Click [here](https://share.streamlit.io/geothermal-resource-capacity/power-density/main/streamlit/Power-Density_streamlit.py) for the app
 
 ---
 
@@ -9,13 +9,13 @@
 
 Initiated during the 2021 Geothermal Hackathon and now incrementally improved.
 
-Original tool and method design: 
+Excel tool and method design: 
 - William (Bill) Cumming 
 
-Project initiator: 
+Python app initiator: 
 - Irene Wallis (Cubic Earth)
 
-Collaborators: 
+App development collaborators: 
 - Hannah Wood
 - Jan Niederau 
 - Jeff Jex
