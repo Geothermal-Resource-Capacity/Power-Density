@@ -214,7 +214,7 @@ st.write('# 2.1 Estimate Power Density')
 st.write('Power density is defined as the sustainable generation (in megawatts) per square kilometer of productive resource area. '+
     'Below we step through how a reasonable range of power capacity can be identified for an exploration prospect. ')
 
-st.write('Because there is a strong relationship between temperature and power capacity, temperature guides selection of the '
+st.write('Because there is a strong relationship between temperature and power capacity, temperature guides selection of the ' +
     'power density values that are used to calculate capacity. However, temperature is not used in the calculation. The values input below are included for reporting purposes. ')
 
 colA, colB = st.columns(2)
