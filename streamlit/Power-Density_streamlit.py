@@ -240,7 +240,7 @@ st.write('If no analogues can be identified, then take the minimum temperature o
     'For example, a minimum P10 temperature of 250degC would yeld a range as wide as 2 - 23 MW/km2. ' +
     'This wide range is appropriate and reflects the large uncertainty present in the power density estimate when there are no developed analogues.')
 
-pd_database = pd.read_csv(r'../data/PowerDensityDatabase_Expanded.csv')
+pd_database = pd.read_csv(r'https://raw.githubusercontent.com/Geothermal-Resource-Capacity/Power-Density/main/data/PowerDensityDatabase_Expanded.csv')
 fig = px.scatter(
     pd_database, 
     x='Average temperature [degC]', 
