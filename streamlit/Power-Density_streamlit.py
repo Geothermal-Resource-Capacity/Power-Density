@@ -214,15 +214,14 @@ st.write('# 2.1 Estimate Power Density')
 st.write('Power density is defined as the sustainable generation (in megawatts) per square kilometer of productive resource area. '+
     'Below we step through how a reasonable range of power capacity can be identified for an exploration prospect. ')
 
-st.write('Temperature has a great influence on power capacity, so we first use the conceptual model to constrain likely resource temperature.')
+st.write('Because there is a strong relationship between temperature and power capacity, temperature guides selection of the ' +
+    'power density values that are used to calculate capacity. However, temperature is not used in the calculation. The values input below are included for reporting purposes. ')
 
 colA, colB = st.columns(2)
 
 # NOTE should probably should add a message/try catch that says these fields must be numeric
 Tmax = float(colA.text_input("Average temperature (degC) in the P90 area", 280))
 Tmin = float(colB.text_input("Minimum temperature for the P10 area (degC)", 250))
-
-st.write('_Note that temperature values input here are used for reporting purposes and are not used in the power capacity calculation_')
 
 st.write('Use these temperatures and the geologic setting of your prospect to ' + 
     'identify developed geothermal systems that have similar characteristics. ' +
@@ -237,30 +236,29 @@ st.write('Evaluation of the production area and power capacity of well-selected 
     'NREL maintains [geothermal wiki](https://openei.org/wiki/Geothermal_Areas) that is a growing repository of case study information.')
 
 st.write('If no analogues can be identified, then take the minimum temperature of the P10 area ' +
-    'and find a range using the database of power density that is plotted below. ' + 
-    'For example, a minimum P10 temperature of 250degC would yield a power density range of 2 - 23 MW/km2.')
+    'and find a power density range using the plot below. ' + 
+    'For example, a minimum P10 temperature of 250degC would yeld a range as wide as 2 - 23 MW/km2. ' +
+    'This wide range is appropriate and reflects the large uncertainty present in the power density estimate when there are no developed analogues.')
 
-imgPath2 = 'https://github.com/Geothermal-Resource-Capacity/Power-Density/blob/main/figures/wilmarth_2019.PNG?raw=true'
-st.image(
-    image=imgPath2, 
-    caption=None, 
-    width=None, 
-    use_column_width=None, 
-    clamp=False, 
-    channels='RGB', 
-    output_format='auto')
+pd_database = pd.read_csv(r'../data/PowerDensityDatabase_Expanded.csv')
+fig = px.scatter(
+    pd_database, 
+    x='Average temperature [degC]', 
+    y='Power density [MWe/km2]', 
+    color='System type',
+    hover_data=['Field', 'System type', 'Average temperature [degC]', 'Enthalpy classification', 'Power density [MWe/km2]'],
+)
 
-st.write('The plot above depicts the power density for developed reservoirs that was ' + 
-    'calculated by dividing the sustained production in MWe by the area within a merged 500 m buffer ' + 
-    'placed around production wells. Therefore, values may not equate directly to the area of potentially productive resource ' + 
-    'that is defined using the concept model process. However, it is a systematic approach and a reasonable approximation. '
-    'This plot is from Wilmarth et al. (2019), which expands on earlier work published ' + 
-    '[here](https://www.geothermal-energy.org/pdf/IGAstandard/WGC/2015/16020.pdf). The underlying data has been' + 
-    ' made open access in [this repository](https://github.com/Geothermal-Resource-Capacity/Power-Density).') 
+st.plotly_chart(fig)
 
-# NOTE Would be good to make the power density plot interactive in future
-# NOTE Would be good to have another version of the power density plot that makes the underlying data clearer
-# NOTE Perhaps include something like toggling over datapoints to see the field name?
+st.write('The plotted power density and average temperature are from Wilmarth et al. (2019), which expands on earlier work published ' + 
+    '[here](https://www.geothermal-energy.org/pdf/IGAstandard/WGC/2015/16020.pdf). ' +
+    'The power density was calculated by dividing the sustained production in MWe by the area within a merged 500 m buffer ' + 
+    'placed around production wells. It follows that these power densities may not directly equate to the area of potentially productive resource ' + 
+    'and the areas defined using the concept model process. However, these power density values were created using a systematic approach and are a reasonable approximation. ' +
+    'The information on system type and enthalpy classification ' +
+    'are from literature review conducted by Irene Wallis. The data in this plot has been ' + 
+    'made open access in [this repository](https://github.com/Geothermal-Resource-Capacity/Power-Density) under an Apache 2 license.') 
 
 # ---------------------------
 # Power capacity - user input
