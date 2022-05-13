@@ -205,6 +205,38 @@ st.write('**Step 3:** Calculate the power capacity by ' +
     'The lognormal approach to power density used in this web-app is described in ' +
     '[Cumming 2016b](https://pangea.stanford.edu/ERE/pdf/IGAstandard/SGW/2016/Cumming.pdf).')
 
+#
+# Equations 
+# 
+
+eq2 = r'''
+$$
+Area_{\mu} = \frac{ln(Area_{P10}) + ln(Area_{P90})}{2}
+$$
+'''
+
+eq3 = r'''
+$$
+Area_{\sigma} = \frac{ln(Area_{P10}) - ln(Area_{P90})}{ppf(0.9) - ppf(0.1)}
+$$
+'''
+
+eq4 = r'''
+$$
+PD_{\mu} = \frac{ln(PD_{P10}) + ln(PD_{P90})}{2}
+$$
+'''
+
+eq5 = r'''
+$$
+PD_{\sigma} = \frac{ln(PD_{P10}) - ln(PD_{P90})}{ppf(0.9) - ppf(0.1)}
+$$
+'''
+## rewrite the percent point function with something more equationesque "real"?
+
+
+st.write(eq2 + '\n' + eq3 + '\n' + eq4 + '\n' + eq5)
+
 # --------------------------------
 # Select Appropriate Power Density
 # --------------------------------
